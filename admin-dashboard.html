@@ -27,6 +27,10 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:15px;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
 header h1{
@@ -41,10 +45,11 @@ header h1{
   padding:11px 16px;
   border-radius:9px;
   font-weight:bold;
+  cursor:pointer;
 }
 
 .container{
-  max-width:900px;
+  max-width:950px;
   margin:auto;
   padding:20px 15px;
 }
@@ -59,18 +64,28 @@ header h1{
 
 h2{
   color:#087f5b;
+  margin-top:0;
+}
+
+.section-title{
+  color:#087f5b;
+  border-bottom:1px solid #e5e7eb;
+  padding-bottom:10px;
+  margin-top:25px;
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:15px;
+  margin-bottom:18px;
 }
 
 .stat{
   background:white;
   padding:20px;
   border-radius:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
 }
 
 .number{
@@ -94,28 +109,37 @@ textarea{
   border:1px solid #d0d5dd;
   border-radius:10px;
   font-size:16px;
+  background:white;
 }
 
 textarea{
-  min-height:110px;
+  min-height:120px;
+  resize:vertical;
 }
 
-.add{
-  width:100%;
-  margin-top:18px;
-  padding:15px;
-  background:#087f5b;
-  color:white;
-  border:0;
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.amenities{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+.amenity{
+  border:1px solid #d0d5dd;
   border-radius:10px;
-  font-size:17px;
-  font-weight:bold;
+  padding:12px;
+  cursor:pointer;
 }
 
-.message{
-  text-align:center;
-  margin-top:15px;
-  font-weight:bold;
+.amenity input{
+  width:auto;
+  margin:0 8px 0 0;
 }
 
 .photo-preview{
@@ -125,39 +149,91 @@ textarea{
   margin-top:12px;
 }
 
+.photo-box{
+  position:relative;
+}
+
 .photo-preview img{
-  width:110px;
+  width:115px;
   height:90px;
   object-fit:cover;
   border-radius:10px;
   border:1px solid #ddd;
 }
 
+.photo-number{
+  position:absolute;
+  left:5px;
+  bottom:5px;
+  background:rgba(0,0,0,.65);
+  color:white;
+  padding:3px 7px;
+  border-radius:5px;
+  font-size:12px;
+}
+
+.add{
+  width:100%;
+  margin-top:22px;
+  padding:16px;
+  background:#087f5b;
+  color:white;
+  border:0;
+  border-radius:10px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.add:disabled{
+  opacity:.6;
+}
+
+.message{
+  text-align:center;
+  margin-top:15px;
+  font-weight:bold;
+}
+
 .property{
   border:1px solid #ddd;
   padding:15px;
-  border-radius:12px;
-  margin-top:12px;
+  border-radius:14px;
+  margin-top:15px;
+  background:#fff;
 }
 
 .property h3{
   color:#087f5b;
   margin-top:0;
+  font-size:20px;
 }
 
 .property-images{
   display:flex;
   gap:8px;
   overflow-x:auto;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
 .property-images img{
-  width:130px;
-  height:100px;
+  width:150px;
+  height:110px;
   object-fit:cover;
   border-radius:10px;
   flex-shrink:0;
+}
+
+.details{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.detail{
+  padding:8px;
+  background:#f7faf9;
+  border-radius:8px;
 }
 
 .delete{
@@ -167,11 +243,45 @@ textarea{
   padding:10px 15px;
   border-radius:8px;
   font-weight:bold;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.whatsapp{
+  background:#087f5b;
+  color:white;
+  padding:10px 15px;
+  border-radius:8px;
+  text-decoration:none;
+  display:inline-block;
+  margin-top:10px;
+  font-weight:bold;
+}
+
+.empty{
+  text-align:center;
+  color:#667085;
+  padding:20px;
 }
 
 @media(max-width:600px){
-  .stats{
+
+  header h1{
+    font-size:18px;
+  }
+
+  .stats,
+  .row,
+  .details{
     grid-template-columns:1fr;
+  }
+
+  .amenities{
+    grid-template-columns:1fr;
+  }
+
+  .box{
+    padding:18px;
   }
 }
 </style>
@@ -189,20 +299,18 @@ Logout
 
 </header>
 
-
 <div class="container">
-
 
 <div class="box">
 
 <h2>Welcome to the Admin Dashboard</h2>
 
 <p>
-Manage Nyumbani Housing properties and listings from here.
+Manage Nyumbani Housing properties, prices, photos,
+availability and contact information from one place.
 </p>
 
 </div>
-
 
 <div class="stats">
 
@@ -217,7 +325,6 @@ Manage Nyumbani Housing properties and listings from here.
 <p>Total property listings</p>
 
 </div>
-
 
 <div class="stat">
 
@@ -234,10 +341,16 @@ Manage Nyumbani Housing properties and listings from here.
 </div>
 
 
+<!-- ADD PROPERTY -->
+
 <div class="box">
 
-<h2>➕ Add Property</h2>
+<h2>➕ Add New Property</h2>
 
+
+<h3 class="section-title">
+🏠 Property Information
+</h3>
 
 <label>
 Property Name
@@ -246,9 +359,13 @@ Property Name
 <input
 id="propertyName"
 type="text"
-placeholder="e.g. Green View Apartments"
+placeholder="e.g. Prime Apartments"
 >
 
+
+<div class="row">
+
+<div>
 
 <label>
 Location
@@ -270,6 +387,10 @@ Nakuru
 
 </select>
 
+</div>
+
+
+<div>
 
 <label>
 Area / Landmark
@@ -278,8 +399,12 @@ Area / Landmark
 <input
 id="area"
 type="text"
-placeholder="e.g. Westlands, CBD, Ngara, Stage, Mall"
+placeholder="e.g. Ngara, CBD, Westlands"
 >
+
+</div>
+
+</div>
 
 
 <label>
@@ -292,36 +417,140 @@ Property Type
 Select property type
 </option>
 
-<option value="House">
-House
-</option>
-
-<option value="Apartment">
-Apartment
+<option value="Single Room">
+Single Room
 </option>
 
 <option value="Bedsitter">
 Bedsitter
 </option>
 
-<option value="Single Room">
-Single Room
+<option value="Studio Apartment">
+Studio Apartment
 </option>
 
-<option value="Studio">
-Studio
+<option value="1 Bedroom Apartment">
+1 Bedroom Apartment
 </option>
 
-<option value="Maisonette">
-Maisonette
+<option value="2 Bedroom Apartment">
+2 Bedroom Apartment
 </option>
 
-<option value="Commercial">
-Commercial
+<option value="3 Bedroom Apartment">
+3 Bedroom Apartment
+</option>
+
+<option value="House with Own Compound">
+House with Own Compound
 </option>
 
 </select>
 
+
+<div class="row">
+
+<div>
+
+<label>
+Bedrooms
+</label>
+
+<select id="bedrooms">
+
+<option value="">
+Select
+</option>
+
+<option value="0">
+0
+</option>
+
+<option value="1">
+1
+</option>
+
+<option value="2">
+2
+</option>
+
+<option value="3">
+3
+</option>
+
+<option value="4">
+4+
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+Bathrooms
+</label>
+
+<select id="bathrooms">
+
+<option value="">
+Select
+</option>
+
+<option value="1">
+1
+</option>
+
+<option value="2">
+2
+</option>
+
+<option value="3">
+3
+</option>
+
+<option value="4">
+4+
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<label>
+Availability
+</label>
+
+<select id="availability">
+
+<option value="Available">
+Available
+</option>
+
+<option value="Occupied">
+Occupied
+</option>
+
+<option value="Coming Soon">
+Coming Soon
+</option>
+
+</select>
+
+
+<h3 class="section-title">
+💰 Pricing
+</h3>
+
+
+<div class="row">
+
+<div>
 
 <label>
 Monthly Rent (KES)
@@ -330,9 +559,14 @@ Monthly Rent (KES)
 <input
 id="price"
 type="number"
+min="0"
 placeholder="e.g. 15000"
 >
 
+</div>
+
+
+<div>
 
 <label>
 Viewing Fee (KES)
@@ -341,23 +575,110 @@ Viewing Fee (KES)
 <input
 id="viewingFee"
 type="number"
-value="1500"
 min="0"
+value="1500"
 >
+
+</div>
+
+</div>
 
 
 <label>
-Description
+Security Deposit (KES)
+</label>
+
+<input
+id="securityDeposit"
+type="number"
+min="0"
+value="0"
+placeholder="e.g. 15000"
+>
+
+
+<h3 class="section-title">
+📝 Description
+</h3>
+
+
+<label>
+Property Description
 </label>
 
 <textarea
 id="description"
-placeholder="Describe the property, nearby mall, college, university, stage or other landmark..."
+placeholder="Describe the property, water availability, electricity, security, nearby schools, colleges, universities, malls, stages and other important information..."
 ></textarea>
 
 
+<h3 class="section-title">
+✨ Amenities
+</h3>
+
+
+<div class="amenities">
+
+<label class="amenity">
+<input type="checkbox" value="Water" class="amenityCheck">
+💧 Water
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Electricity" class="amenityCheck">
+⚡ Electricity
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Parking" class="amenityCheck">
+🚗 Parking
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Security" class="amenityCheck">
+🔐 Security
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Wi-Fi" class="amenityCheck">
+📶 Wi-Fi
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Hot Shower" class="amenityCheck">
+🚿 Hot Shower
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Prepaid Electricity" class="amenityCheck">
+💡 Prepaid Electricity
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Gated Compound" class="amenityCheck">
+🏡 Gated Compound
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Balcony" class="amenityCheck">
+🌇 Balcony
+</label>
+
+<label class="amenity">
+<input type="checkbox" value="Kitchen" class="amenityCheck">
+🍳 Kitchen
+</label>
+
+</div>
+
+
+<h3 class="section-title">
+📷 Property Photos
+</h3>
+
+
 <label>
-Property Photos
+Select Multiple Photos
 </label>
 
 <input
@@ -368,8 +689,9 @@ multiple
 >
 
 <p>
-📷 Select multiple photos from your phone gallery.
+📱 You can select several photos from your phone gallery.
 </p>
+
 
 <div
 id="photoPreview"
@@ -377,10 +699,1050 @@ class="photo-preview"
 ></div>
 
 
+<h3 class="section-title">
+📞 Contact Information
+</h3>
+
+
+<div class="row">
+
+<div>
+
 <label>
 Contact Phone
 </label>
 
 <input
 id="phone"
-type
+type="tel"
+placeholder="0700000000"
+>
+
+</div>
+
+
+<div>
+
+<label>
+WhatsApp Number
+</label>
+
+<input
+id="whatsapp"
+type="tel"
+placeholder="0700000000"
+>
+
+</div>
+
+</div>
+
+
+<button
+id="addButton"
+class="add"
+onclick="addProperty()"
+>
+➕ Add Property
+</button>
+
+
+<div
+id="message"
+class="message"
+></div>
+
+</div>
+
+
+<!-- PROPERTY LIST -->
+
+<div class="box">
+
+<h2>
+📋 Property Listings
+</h2>
+
+<div id="propertyList">
+Loading properties...
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   SUPABASE
+================================ */
+
+const SUPABASE_URL =
+"https://lcevyljupucnynpivygr.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_GYJxHmYaDMn-8McoGduBLw_ZMhWg5EO";
+
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* ================================
+   LOGIN
+================================ */
+
+async function checkLogin(){
+
+const {
+data:{
+session
+}
+}
+=
+await supabaseClient.auth.getSession();
+
+
+if(!session){
+
+window.location.href =
+"admin.html";
+
+return false;
+
+}
+
+return true;
+
+}
+
+
+/* ================================
+   PHOTO PREVIEW
+================================ */
+
+const imageFiles =
+document.getElementById("imageFiles");
+
+imageFiles.addEventListener(
+"change",
+function(){
+
+const preview =
+document.getElementById("photoPreview");
+
+preview.innerHTML="";
+
+
+const files =
+Array.from(this.files);
+
+
+files.forEach(
+function(file,index){
+
+const reader =
+new FileReader();
+
+
+reader.onload =
+function(e){
+
+const box =
+document.createElement("div");
+
+box.className =
+"photo-box";
+
+
+box.innerHTML = `
+
+<img
+src="${e.target.result}"
+alt="Property photo"
+>
+
+<span class="photo-number">
+${index + 1}
+</span>
+
+`;
+
+preview.appendChild(box);
+
+};
+
+
+reader.readAsDataURL(file);
+
+});
+
+});
+
+
+/* ================================
+   UPLOAD PHOTOS
+================================ */
+
+async function uploadPhotos(files){
+
+const imageUrls = [];
+
+
+for(
+let i = 0;
+i < files.length;
+i++
+){
+
+const file =
+files[i];
+
+
+const extension =
+file.name
+.split(".")
+.pop()
+.toLowerCase();
+
+
+const fileName =
+Date.now()
++
+"-"
++
+Math.random()
+.toString(36)
+.substring(2)
++
+"."
++
+extension;
+
+
+const filePath =
+"properties/"
++
+fileName;
+
+
+const {
+error
+}
+=
+await supabaseClient
+.storage
+.from("property-images")
+.upload(
+filePath,
+file,
+{
+cacheControl:"3600",
+upsert:false
+}
+);
+
+
+if(error){
+
+throw new Error(
+"Photo upload failed: "
++
+error.message
+);
+
+}
+
+
+const {
+data
+}
+=
+supabaseClient
+.storage
+.from("property-images")
+.getPublicUrl(filePath);
+
+
+imageUrls.push(
+data.publicUrl
+);
+
+}
+
+
+return imageUrls;
+
+}
+
+
+/* ================================
+   ADD PROPERTY
+================================ */
+
+async function addProperty(){
+
+const loggedIn =
+await checkLogin();
+
+if(!loggedIn){
+return;
+}
+
+
+const name =
+document
+.getElementById("propertyName")
+.value
+.trim();
+
+
+const location =
+document
+.getElementById("location")
+.value;
+
+
+const area =
+document
+.getElementById("area")
+.value
+.trim();
+
+
+const type =
+document
+.getElementById("propertyType")
+.value;
+
+
+const bedroomsValue =
+document
+.getElementById("bedrooms")
+.value;
+
+
+const bathroomsValue =
+document
+.getElementById("bathrooms")
+.value;
+
+
+const price =
+document
+.getElementById("price")
+.value;
+
+
+const viewingFee =
+document
+.getElementById("viewingFee")
+.value;
+
+
+const securityDeposit =
+document
+.getElementById("securityDeposit")
+.value;
+
+
+const availability =
+document
+.getElementById("availability")
+.value;
+
+
+const description =
+document
+.getElementById("description")
+.value
+.trim();
+
+
+const phone =
+document
+.getElementById("phone")
+.value
+.trim();
+
+
+const whatsapp =
+document
+.getElementById("whatsapp")
+.value
+.trim();
+
+
+const files =
+Array.from(
+document
+.getElementById("imageFiles")
+.files
+);
+
+
+const message =
+document
+.getElementById("message");
+
+
+if(
+!name ||
+!location ||
+!area ||
+!type ||
+price === "" ||
+!phone
+){
+
+message.style.color =
+"#d92d20";
+
+message.innerText =
+"Please fill in all required fields.";
+
+return;
+
+}
+
+
+const button =
+document.getElementById("addButton");
+
+
+button.disabled = true;
+
+button.innerText =
+"⏳ Adding Property...";
+
+
+message.style.color =
+"#667085";
+
+message.innerText =
+"Please wait...";
+
+
+try{
+
+
+/* UPLOAD PHOTOS */
+
+let imageUrls = [];
+
+
+if(files.length > 0){
+
+message.innerText =
+"Uploading property photos...";
+
+
+imageUrls =
+await uploadPhotos(files);
+
+}
+
+
+/* AMENITIES */
+
+const amenities =
+Array.from(
+document.querySelectorAll(
+".amenityCheck:checked"
+)
+)
+.map(
+function(item){
+return item.value;
+}
+);
+
+
+/* INSERT PROPERTY */
+
+message.innerText =
+"Saving property...";
+
+
+const {
+error
+}
+=
+await supabaseClient
+.from("properties")
+.insert([
+
+{
+
+title:name,
+
+location:location,
+
+area:area,
+
+property_type:type,
+
+price:Number(price),
+
+viewing_fee:
+Number(viewingFee || 1500),
+
+security_deposit:
+Number(securityDeposit || 0),
+
+bedrooms:
+bedroomsValue === ""
+? null
+: Number(bedroomsValue),
+
+bathrooms:
+bathroomsValue === ""
+? null
+: Number(bathroomsValue),
+
+availability:
+availability,
+
+description:
+description,
+
+amenities:
+amenities,
+
+image_urls:
+imageUrls,
+
+contact_phone:
+phone,
+
+whatsapp_phone:
+whatsapp || phone
+
+}
+
+]);
+
+
+if(error){
+
+throw new Error(
+error.message
+);
+
+}
+
+
+/* SUCCESS */
+
+message.style.color =
+"#087f5b";
+
+message.innerText =
+"✅ Property added successfully!";
+
+
+clearForm();
+
+await loadProperties();
+
+
+}
+catch(error){
+
+message.style.color =
+"#d92d20";
+
+message.innerText =
+"❌ Error: "
++
+error.message;
+
+}
+finally{
+
+button.disabled = false;
+
+button.innerText =
+"➕ Add Property";
+
+}
+
+}
+
+
+/* ================================
+   CLEAR FORM
+================================ */
+
+function clearForm(){
+
+document.getElementById(
+"propertyName"
+).value="";
+
+document.getElementById(
+"location"
+).value="";
+
+document.getElementById(
+"area"
+).value="";
+
+document.getElementById(
+"propertyType"
+).value="";
+
+document.getElementById(
+"bedrooms"
+).value="";
+
+document.getElementById(
+"bathrooms"
+).value="";
+
+document.getElementById(
+"availability"
+).value="Available";
+
+document.getElementById(
+"price"
+).value="";
+
+document.getElementById(
+"viewingFee"
+).value="1500";
+
+document.getElementById(
+"securityDeposit"
+).value="0";
+
+document.getElementById(
+"description"
+).value="";
+
+document.getElementById(
+"phone"
+).value="";
+
+document.getElementById(
+"whatsapp"
+).value="";
+
+document.getElementById(
+"imageFiles"
+).value="";
+
+document.getElementById(
+"photoPreview"
+).innerHTML="";
+
+
+document
+.querySelectorAll(".amenityCheck")
+.forEach(
+function(item){
+item.checked=false;
+}
+);
+
+}
+
+
+/* ================================
+   LOAD PROPERTIES
+================================ */
+
+async function loadProperties(){
+
+const {
+data,
+error
+}
+=
+await supabaseClient
+.from("properties")
+.select("*")
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
+
+const list =
+document.getElementById(
+"propertyList"
+);
+
+
+if(error){
+
+list.innerHTML =
+`
+<p style="color:#d92d20">
+Could not load properties:
+${escapeHtml(error.message)}
+</p>
+`;
+
+return;
+
+}
+
+
+document.getElementById(
+"propertyCount"
+).innerText =
+data.length;
+
+
+if(data.length === 0){
+
+list.innerHTML =
+`
+<div class="empty">
+No properties added yet.
+</div>
+`;
+
+return;
+
+}
+
+
+list.innerHTML =
+data
+.map(
+function(property){
+
+return createPropertyCard(
+property
+);
+
+}
+)
+.join("");
+
+}
+
+
+/* ================================
+   PROPERTY CARD
+================================ */
+
+function createPropertyCard(property){
+
+let images =
+Array.isArray(property.image_urls)
+? property.image_urls
+: [];
+
+
+/* Support old single-image records */
+
+if(
+images.length === 0 &&
+property.image_url
+){
+
+images = [
+property.image_url
+];
+
+}
+
+
+const imageHTML =
+images.length > 0
+?
+`
+
+<div class="property-images">
+
+${images
+.map(
+function(url){
+
+return `
+
+<img
+src="${escapeHtml(url)}"
+alt="Property photo"
+onerror="this.style.display='none'"
+>
+
+`;
+
+}
+)
+.join("")}
+
+</div>
+
+`
+:
+"";
+
+
+const amenities =
+Array.isArray(property.amenities)
+? property.amenities
+: [];
+
+
+const amenitiesHTML =
+amenities.length > 0
+?
+`
+<p>
+✨ <strong>Amenities:</strong>
+${amenities
+.map(
+function(item){
+return escapeHtml(item);
+}
+)
+.join(" • ")}
+</p>
+`
+:
+"";
+
+
+const whatsapp =
+property.whatsapp_phone ||
+property.contact_phone ||
+"";
+
+
+const whatsappNumber =
+whatsapp
+.replace(
+/[^0-9]/g,
+""
+);
+
+
+const whatsappHTML =
+whatsappNumber
+?
+`
+<a
+class="whatsapp"
+href="https://wa.me/${whatsappNumber}"
+target="_blank"
+>
+💬 WhatsApp
+</a>
+`
+:
+"";
+
+
+return `
+
+<div class="property">
+
+${imageHTML}
+
+<h3>
+🏠 ${escapeHtml(property.title || "")}
+</h3>
+
+<p>
+📍 <strong>
+${escapeHtml(property.location || "")}
+</strong>
+-
+${escapeHtml(property.area || "")}
+</p>
+
+<div class="details">
+
+<div class="detail">
+🏠 ${escapeHtml(property.property_type || "")}
+</div>
+
+<div class="detail">
+📅 ${escapeHtml(property.availability || "Available")}
+</div>
+
+<div class="detail">
+🛏️ Bedrooms:
+${property.bedrooms ?? "—"}
+</div>
+
+<div class="detail">
+🚿 Bathrooms:
+${property.bathrooms ?? "—"}
+</div>
+
+<div class="detail">
+💰 Rent:
+KES ${Number(
+property.price || 0
+).toLocaleString()}
+</div>
+
+<div class="detail">
+👀 Viewing:
+KES ${Number(
+property.viewing_fee ?? 1500
+).toLocaleString()}
+</div>
+
+<div class="detail">
+🔐 Deposit:
+KES ${Number(
+property.security_deposit || 0
+).toLocaleString()}
+</div>
+
+</div>
+
+<p>
+${escapeHtml(property.description || "")}
+</p>
+
+${amenitiesHTML}
+
+<p>
+📞 <strong>
+${escapeHtml(property.contact_phone || "")}
+</strong>
+</p>
+
+${whatsappHTML}
+
+<br>
+
+<button
+class="delete"
+onclick="deleteProperty('${escapeHtml(property.id)}')"
+>
+🗑️ Delete
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* ================================
+   DELETE
+================================ */
+
+async function deleteProperty(id){
+
+const answer =
+confirm(
+"Are you sure you want to delete this property?"
+);
+
+if(!answer){
+return;
+}
+
+
+const {
+error
+}
+=
+await supabaseClient
+.from("properties")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Could not delete property: "
++
+error.message
+);
+
+return;
+
+}
+
+
+await loadProperties();
+
+}
+
+
+/* ================================
+   ESCAPE HTML
+================================ */
+
+function escapeHtml(value){
+
+return String(value ?? "")
+.replace(
+/&/g,
+"&amp;"
+)
+.replace(
+/</g,
+"&lt;"
+)
+.replace(
+/>/g,
+"&gt;"
+)
+.replace(
+/"/g,
+"&quot;"
+)
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+
+/* ================================
+   LOGOUT
+================================ */
+
+async function logout(){
+
+await supabaseClient
+.auth
+.signOut();
+
+window.location.href =
+"admin.html";
+
+}
+
+
+/* ================================
+   START
+================================ */
+
+checkLogin()
+.then(
+function(loggedIn){
+
+if(loggedIn){
+
+loadProperties();
+
+}
+
+}
+);
+
+</script>
+
+</body>
+</html>
