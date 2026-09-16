@@ -5,10 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nyumbani Housing | Find Your Home</title>
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-html{scroll-behavior:smooth}
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+html{
+scroll-behavior:smooth;
+}
 
 body{
 font-family:Arial,sans-serif;
@@ -47,6 +55,10 @@ font-weight:600;
 margin-left:18px;
 }
 
+nav a:hover{
+color:#087f5b;
+}
+
 .hero{
 padding:65px 20px;
 background:linear-gradient(135deg,#eef8f3,#fff);
@@ -77,7 +89,9 @@ line-height:1.1;
 margin-bottom:18px;
 }
 
-h1 span{color:#087f5b}
+h1 span{
+color:#087f5b;
+}
 
 .hero p{
 font-size:18px;
@@ -98,6 +112,7 @@ border-radius:8px;
 text-decoration:none;
 font-weight:bold;
 border:1px solid #087f5b;
+cursor:pointer;
 }
 
 .primary{
@@ -323,9 +338,68 @@ color:#b8c0cc;
 margin-top:6px;
 }
 
+/* ADMIN */
+
+.admin-section{
+background:#f2f4f7;
+display:none;
+}
+
+.admin-box{
+max-width:700px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:16px;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.admin-box h2{
+margin-bottom:20px;
+color:#087f5b;
+}
+
+.admin-input{
+width:100%;
+padding:14px;
+margin-bottom:14px;
+border:1px solid #d9dee5;
+border-radius:8px;
+font-size:16px;
+}
+
+.admin-message{
+margin:12px 0;
+font-weight:bold;
+}
+
+.dashboard{
+display:none;
+margin-top:25px;
+}
+
+.dashboard-card{
+background:#eef8f3;
+padding:20px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.logout{
+background:#b42318;
+color:white;
+border:0;
+padding:12px 20px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
 @media(max-width:800px){
 
-nav{display:none}
+nav{
+display:none;
+}
 
 .hero{
 padding:50px 18px;
@@ -356,6 +430,7 @@ grid-template-columns:1fr;
 <body>
 
 <header>
+
 <div class="navbar">
 
 <div class="logo">
@@ -368,9 +443,11 @@ Nyumbani Housing
 <a href="#viewing">Booking</a>
 <a href="#about">About</a>
 <a href="#contact">Contact</a>
+<a href="#admin">Admin</a>
 </nav>
 
 </div>
+
 </header>
 
 
@@ -498,9 +575,12 @@ Properties currently listed by Nyumbani Housing.
 
 <div id="propertyGrid" class="property-grid">
 
+
 <div class="property">
 
-<div class="property-image">🏠</div>
+<div class="property-image">
+🏠
+</div>
 
 <div class="property-info">
 
@@ -531,12 +611,15 @@ WhatsApp to Book
 </a>
 
 </div>
+
 </div>
 
 
 <div class="property">
 
-<div class="property-image">🏡</div>
+<div class="property-image">
+🏡
+</div>
 
 <div class="property-info">
 
@@ -567,12 +650,15 @@ WhatsApp to Book
 </a>
 
 </div>
+
 </div>
 
 
 <div class="property">
 
-<div class="property-image">🏘️</div>
+<div class="property-image">
+🏘️
+</div>
 
 <div class="property-info">
 
@@ -603,13 +689,16 @@ WhatsApp to Book
 </a>
 
 </div>
+
 </div>
 
 </div>
 
 
 <div id="noResults" class="no-results">
+
 No properties match your search.
+
 </div>
 
 </div>
@@ -759,6 +848,82 @@ class="btn">
 
 </section>
 
+
+<!-- ADMIN LOGIN -->
+
+<section id="admin" class="admin-section">
+
+<div class="admin-box">
+
+<h2>🔐 Nyumbani Housing Admin</h2>
+
+<p>
+Admin access is restricted to the Nyumbani Housing administrator.
+</p>
+
+<br>
+
+<input
+id="adminEmail"
+class="admin-input"
+type="email"
+placeholder="Admin email">
+
+<input
+id="adminPassword"
+class="admin-input"
+type="password"
+placeholder="Password">
+
+<button
+class="btn primary"
+onclick="adminLogin()">
+
+Login
+
+</button>
+
+<div
+id="adminMessage"
+class="admin-message">
+</div>
+
+
+<div
+id="dashboard"
+class="dashboard">
+
+<div class="dashboard-card">
+
+<h3>🏠 Admin Dashboard</h3>
+
+<p>
+You are logged in as the Nyumbani Housing administrator.
+</p>
+
+<br>
+
+<p>
+Property management will be connected here next.
+</p>
+
+</div>
+
+
+<button
+class="logout"
+onclick="adminLogout()">
+
+Logout
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
 </main>
 
 
@@ -783,7 +948,7 @@ Find your home. Build your future.
 
 <script>
 
-/* SUPABASE CONNECTION */
+/* SUPABASE */
 
 const SUPABASE_URL =
 "https://lcevyljupucnynpivygr.supabase.co";
@@ -791,22 +956,31 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_GYJxHmYaDMn-8McoGduBLw_ZMhWg5EO";
 
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
 
 /* SEARCH */
 
 function searchHomes(){
 
 const location =
-document.getElementById("location").value
+document.getElementById("location")
+.value
 .trim()
 .toLowerCase();
 
 const type =
-document.getElementById("type").value
+document.getElementById("type")
+.value
 .toLowerCase();
 
 const price =
-document.getElementById("price").value;
+document.getElementById("price")
+.value;
 
 const cards =
 document.querySelectorAll(".property");
@@ -819,50 +993,64 @@ const text =
 card.innerText.toLowerCase();
 
 let matchesLocation =
-!location || text.includes(location);
+!location ||
+text.includes(location);
 
 let matchesType =
-!type || text.includes(type);
+!type ||
+text.includes(type);
 
 let matchesPrice=true;
 
 if(price){
 
 const numbers =
-text.replace(/,/g,"")
+text
+.replace(/,/g,"")
 .match(/\d+/g);
 
-if(numbers && numbers.length){
+if(numbers){
 
 const propertyPrice =
-parseInt(numbers.find(n=>parseInt(n)>=1000));
+parseInt(
+numbers.find(
+n=>parseInt(n)>=1000
+)
+);
 
 if(price==="3000-5500")
-matchesPrice=propertyPrice>=3000 &&
+matchesPrice =
+propertyPrice>=3000 &&
 propertyPrice<=5500;
 
 if(price==="6500-8500")
-matchesPrice=propertyPrice>=6500 &&
+matchesPrice =
+propertyPrice>=6500 &&
 propertyPrice<=8500;
 
 if(price==="10000-25000")
-matchesPrice=propertyPrice>=10000 &&
+matchesPrice =
+propertyPrice>=10000 &&
 propertyPrice<=25000;
 
 if(price==="25000-50000")
-matchesPrice=propertyPrice>=25000 &&
+matchesPrice =
+propertyPrice>=25000 &&
 propertyPrice<=50000;
 
 if(price==="50000+")
-matchesPrice=propertyPrice>=50000;
+matchesPrice =
+propertyPrice>=50000;
 
 }
 
 }
 
-if(matchesLocation &&
+if(
+matchesLocation &&
 matchesType &&
-matchesPrice){
+matchesPrice
+){
 
 card.style.display="block";
 found++;
@@ -875,21 +1063,105 @@ card.style.display="none";
 
 });
 
-document.getElementById("noResults").style.display =
+document.getElementById("noResults")
+.style.display =
 found ? "none" : "block";
 
 document.getElementById("properties")
-.scrollIntoView({behavior:"smooth"});
+.scrollIntoView({
+behavior:"smooth"
+});
 
 }
 
 
-/* SUPABASE TEST */
+/* ADMIN LOGIN */
 
-console.log(
-"Nyumbani Housing connected to Supabase:",
-SUPABASE_URL
-);
+async function adminLogin(){
+
+const email =
+document
+.getElementById("adminEmail")
+.value
+.trim();
+
+const password =
+document
+.getElementById("adminPassword")
+.value;
+
+const message =
+document.getElementById("adminMessage");
+
+if(!email || !password){
+
+message.innerText =
+"Please enter your email and password.";
+
+return;
+}
+
+message.innerText =
+"Logging in...";
+
+const {data,error} =
+await supabaseClient.auth.signInWithPassword({
+email:email,
+password:password
+});
+
+if(error){
+
+message.innerText =
+"Login failed: " + error.message;
+
+return;
+}
+
+message.innerText =
+"Login successful.";
+
+document.getElementById("dashboard")
+.style.display="block";
+
+}
+
+
+/* ADMIN LOGOUT */
+
+async function adminLogout(){
+
+await supabaseClient.auth.signOut();
+
+document.getElementById("dashboard")
+.style.display="none";
+
+document.getElementById("adminMessage")
+.innerText="Logged out.";
+
+document.getElementById("adminPassword")
+.value="";
+
+}
+
+
+/* CHECK EXISTING SESSION */
+
+async function checkAdmin(){
+
+const {data} =
+await supabaseClient.auth.getSession();
+
+if(data.session){
+
+document.getElementById("dashboard")
+.style.display="block";
+
+}
+
+}
+
+checkAdmin();
 
 </script>
 
