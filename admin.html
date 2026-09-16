@@ -1,160 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Nyumbani Housing | Admin Login</title>
+<title>Nyumbani Housing - Admin Login</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body{
-font-family:Arial, sans-serif;
-background:#f1f8f5;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
+  font-family:Arial,sans-serif;
+  background:#f1f8f5;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
 .login-box{
-width:100%;
-max-width:430px;
-background:white;
-padding:35px 28px;
-border-radius:20px;
-box-shadow:0 10px 35px rgba(0,0,0,0.10);
+  width:100%;
+  max-width:430px;
+  background:white;
+  padding:35px 28px;
+  border-radius:20px;
+  box-shadow:0 10px 35px rgba(0,0,0,0.10);
 }
 
 .logo{
-text-align:center;
-font-size:28px;
-font-weight:bold;
-color:#087f5b;
-margin-bottom:8px;
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  color:#087f5b;
+  margin-bottom:8px;
 }
 
 .subtitle{
-text-align:center;
-font-size:18px;
-font-weight:bold;
-color:#172033;
-margin-bottom:30px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  color:#172033;
+  margin-bottom:30px;
 }
 
 label{
-display:block;
-font-weight:bold;
-color:#172033;
-margin-bottom:8px;
+  display:block;
+  font-weight:bold;
+  color:#172033;
+  margin-bottom:8px;
 }
 
 input{
-width:100%;
-padding:15px;
-border:1px solid #d0d5dd;
-border-radius:10px;
-font-size:16px;
-margin-bottom:20px;
-outline:none;
+  width:100%;
+  padding:15px;
+  border:1px solid #d0d5dd;
+  border-radius:10px;
+  font-size:16px;
+  margin-bottom:20px;
+  outline:none;
 }
 
 input:focus{
-border-color:#087f5b;
+  border-color:#087f5b;
 }
 
 button{
-width:100%;
-padding:15px;
-border:none;
-border-radius:10px;
-background:#087f5b;
-color:white;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:10px;
+  background:#087f5b;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 button:active{
-transform:scale(0.99);
+  transform:scale(0.99);
 }
 
 #message{
-text-align:center;
-margin-top:18px;
-font-size:15px;
-font-weight:bold;
-line-height:1.5;
+  text-align:center;
+  margin-top:18px;
+  font-size:15px;
+  font-weight:bold;
+  line-height:1.5;
 }
 
 .back{
-display:block;
-text-align:center;
-margin-top:22px;
-color:#087f5b;
-text-decoration:none;
-font-weight:bold;
+  display:block;
+  text-align:center;
+  margin-top:22px;
+  color:#087f5b;
+  text-decoration:none;
+  font-weight:bold;
 }
-
 </style>
-
 </head>
 
 <body>
 
 <div class="login-box">
 
-<div class="logo">
-🏠 Nyumbani Housing
-</div>
+  <div class="logo">
+    🏠 Nyumbani Housing
+  </div>
 
-<div class="subtitle">
-Admin Login
-</div>
+  <div class="subtitle">
+    Admin Login
+  </div>
 
-<form onsubmit="adminLogin(event)">
+  <form onsubmit="adminLogin(event)">
 
-<label>Email Address</label>
+    <label>Email Address</label>
 
-<input
-id="email"
-type="email"
-placeholder="Admin email"
-required
->
+    <input
+      id="email"
+      type="email"
+      placeholder="Admin email"
+      required
+    >
 
-<label>Password</label>
+    <label>Password</label>
 
-<input
-id="password"
-type="password"
-placeholder="Admin password"
-required
->
+    <input
+      id="password"
+      type="password"
+      placeholder="Admin password"
+      required
+    >
 
-<button type="submit">
-Login
-</button>
+    <button type="submit">
+      Login
+    </button>
 
-</form>
+  </form>
 
-<div id="message"></div>
+  <div id="message"></div>
 
-<a class="back" href="index.html">
-← Back to Nyumbani Housing
-</a>
+  <a class="back" href="index.html">
+    ← Back to Nyumbani Housing
+  </a>
 
 </div>
 
@@ -168,54 +162,61 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
 async function adminLogin(event){
 
-event.preventDefault();
+  event.preventDefault();
 
-const email =
-document.getElementById("email").value.trim();
+  const email =
+    document.getElementById("email").value.trim();
 
-const password =
-document.getElementById("password").value;
+  const password =
+    document.getElementById("password").value;
 
-const message =
-document.getElementById("message");
+  const message =
+    document.getElementById("message");
 
-message.style.color="#667085";
-message.innerText="Logging in...";
-
-
-const { data, error } =
-await supabaseClient.auth.signInWithPassword({
-
-email: email,
-
-password: password
-
-});
+  message.style.color="#667085";
+  message.innerText="Logging in...";
 
 
-if(error){
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
 
-message.style.color="#d92d20";
+      email: email,
 
-message.innerText =
-"Login failed: " + error.message;
+      password: password
 
-return;
-
-}
+    });
 
 
-message.style.color="#087f5b";
+  if(error){
 
-message.innerText =
-"Login successful!";
+    message.style.color="#d92d20";
+
+    message.innerText =
+      "Login failed: " + error.message;
+
+    return;
+  }
+
+
+  message.style.color="#087f5b";
+
+  message.innerText =
+    "Login successful! Opening dashboard...";
+
+
+  setTimeout(function(){
+
+    window.location.href =
+      "admin-dashboard.html";
+
+  },500);
 
 }
 
