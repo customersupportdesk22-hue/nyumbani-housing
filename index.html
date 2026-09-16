@@ -7,378 +7,390 @@
 <title>Nyumbani Housing | Find Your Home</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 html{
-  scroll-behavior:smooth;
+scroll-behavior:smooth;
 }
 
 body{
-  font-family:Arial,sans-serif;
-  color:#172033;
-  background:#f7faf8;
-  line-height:1.6;
+font-family:Arial,sans-serif;
+background:#f7faf8;
+color:#172033;
+line-height:1.6;
 }
 
 header{
-  background:#fff;
-  border-bottom:1px solid #e5e7eb;
-  position:sticky;
-  top:0;
-  z-index:1000;
+background:white;
+border-bottom:1px solid #e5e7eb;
+position:sticky;
+top:0;
+z-index:100;
 }
 
 .navbar{
-  max-width:1200px;
-  margin:auto;
-  padding:18px 24px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+max-width:1200px;
+margin:auto;
+padding:18px 22px;
+display:flex;
+align-items:center;
+justify-content:space-between;
 }
 
 .logo{
-  font-size:24px;
-  font-weight:800;
-  color:#087f5b;
+font-size:25px;
+font-weight:800;
+color:#087f5b;
 }
 
 nav a{
-  text-decoration:none;
-  color:#172033;
-  margin-left:22px;
-  font-weight:600;
+text-decoration:none;
+color:#172033;
+font-weight:600;
+margin-left:22px;
 }
 
 nav a:hover{
-  color:#087f5b;
+color:#087f5b;
 }
 
 .hero{
-  background:linear-gradient(135deg,#eef8f3,#fff);
-  padding:75px 24px;
+padding:75px 22px;
+background:linear-gradient(135deg,#eef8f3,#fff);
 }
 
 .hero-inner{
-  max-width:1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:50px;
-  align-items:center;
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:50px;
+align-items:center;
 }
 
 .badge{
-  display:inline-block;
-  background:#dff4eb;
-  color:#087f5b;
-  padding:8px 14px;
-  border-radius:30px;
-  font-weight:bold;
-  margin-bottom:20px;
+display:inline-block;
+background:#dff4eb;
+color:#087f5b;
+padding:8px 14px;
+border-radius:30px;
+font-weight:bold;
+margin-bottom:18px;
 }
 
 h1{
-  font-size:56px;
-  line-height:1.1;
-  margin-bottom:20px;
+font-size:56px;
+line-height:1.1;
+margin-bottom:20px;
 }
 
 h1 span{
-  color:#087f5b;
+color:#087f5b;
 }
 
 .hero p{
-  color:#667085;
-  font-size:18px;
-  margin-bottom:28px;
+font-size:18px;
+color:#667085;
+margin-bottom:28px;
 }
 
 .buttons{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .btn{
-  display:inline-block;
-  padding:13px 22px;
-  border-radius:9px;
-  text-decoration:none;
-  font-weight:bold;
-  border:1px solid #087f5b;
+display:inline-block;
+padding:13px 22px;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+border:1px solid #087f5b;
 }
 
 .primary{
-  background:#087f5b;
-  color:#fff;
+background:#087f5b;
+color:white;
 }
 
 .secondary{
-  background:#fff;
-  color:#087f5b;
+background:white;
+color:#087f5b;
 }
 
-.search-card,
-.form-card{
-  background:#fff;
-  padding:28px;
-  border-radius:18px;
-  box-shadow:0 12px 35px rgba(0,0,0,.08);
+.search-card{
+background:white;
+padding:28px;
+border-radius:18px;
+box-shadow:0 12px 35px rgba(0,0,0,.08);
 }
 
-.search-card h2,
-.form-card h2{
-  margin-bottom:20px;
+.search-card h2{
+margin-bottom:20px;
 }
 
 .field{
-  margin-bottom:15px;
+margin-bottom:15px;
 }
 
 .field label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:7px;
+display:block;
+font-weight:bold;
+margin-bottom:7px;
 }
 
 .field input,
-.field select,
-.field textarea{
-  width:100%;
-  padding:13px;
-  border:1px solid #d9dee5;
-  border-radius:8px;
-  font-size:15px;
-  font-family:inherit;
+.field select{
+width:100%;
+padding:13px;
+border:1px solid #d9dee5;
+border-radius:8px;
+font-size:15px;
+background:white;
 }
 
-.field textarea{
-  min-height:120px;
-  resize:vertical;
-}
-
-.search-btn,
-.submit-btn{
-  width:100%;
-  padding:14px;
-  border:0;
-  border-radius:8px;
-  background:#087f5b;
-  color:#fff;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+.search-btn{
+width:100%;
+padding:14px;
+border:0;
+border-radius:8px;
+background:#087f5b;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
 }
 
 section{
-  padding:70px 24px;
+padding:70px 22px;
 }
 
 .container{
-  max-width:1200px;
-  margin:auto;
+max-width:1200px;
+margin:auto;
 }
 
 .section-title{
-  text-align:center;
-  margin-bottom:40px;
+text-align:center;
+margin-bottom:40px;
 }
 
 .section-title h2{
-  font-size:35px;
-  margin-bottom:8px;
+font-size:36px;
+margin-bottom:8px;
 }
 
 .section-title p{
-  color:#667085;
-}
-
-.features{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:24px;
-}
-
-.feature{
-  background:#fff;
-  padding:28px;
-  border:1px solid #e5e7eb;
-  border-radius:14px;
-}
-
-.icon{
-  font-size:34px;
-  margin-bottom:12px;
-}
-
-.feature h3{
-  margin-bottom:8px;
-}
-
-.feature p{
-  color:#667085;
+color:#667085;
 }
 
 .properties{
-  background:#eef6f2;
+background:#eef6f2;
 }
 
 .property-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:24px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
 }
 
 .property{
-  background:#fff;
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid #e5e7eb;
+background:white;
+border-radius:15px;
+overflow:hidden;
+border:1px solid #e5e7eb;
 }
 
 .property-image{
-  height:180px;
-  background:#dcefe7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:52px;
+height:200px;
+background:#dcefe7;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:60px;
 }
 
 .property-info{
-  padding:20px;
+padding:22px;
+}
+
+.property-info h3{
+font-size:21px;
 }
 
 .location{
-  color:#667085;
-  margin:5px 0;
+color:#667085;
+margin:5px 0;
 }
 
 .price{
-  color:#087f5b;
-  font-size:19px;
-  font-weight:bold;
+color:#087f5b;
+font-size:20px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.viewing-fee{
+margin-top:15px;
+padding:14px;
+background:#fff7e6;
+border-left:4px solid #f59e0b;
+border-radius:6px;
+font-size:14px;
+}
+
+.viewing-fee strong{
+display:block;
+color:#9a6700;
+margin-bottom:4px;
+}
+
+.agent-note{
+margin-top:10px;
+font-size:13px;
+color:#667085;
 }
 
 .property-btn{
-  display:block;
-  margin-top:14px;
-  text-align:center;
-  padding:10px;
-  background:#087f5b;
-  color:#fff;
-  text-decoration:none;
-  border-radius:7px;
-  font-weight:bold;
+display:block;
+margin-top:16px;
+text-align:center;
+padding:12px;
+background:#087f5b;
+color:white;
+text-decoration:none;
+border-radius:8px;
+font-weight:bold;
 }
 
-.list-property{
-  background:#f7faf8;
+.property-btn:hover{
+background:#066b4d;
 }
 
-.form-wrapper{
-  max-width:750px;
-  margin:auto;
+.about-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:24px;
 }
 
-.form-card{
-  box-shadow:0 8px 25px rgba(0,0,0,.07);
+.about-card{
+background:white;
+padding:28px;
+border:1px solid #e5e7eb;
+border-radius:14px;
 }
 
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
+.about-card .icon{
+font-size:35px;
+margin-bottom:12px;
 }
 
-.full{
-  grid-column:1 / -1;
+.about-card p{
+color:#667085;
 }
 
-.note{
-  background:#eef8f3;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:20px;
-  color:#087f5b;
-  font-size:14px;
+.viewing-section{
+background:white;
+}
+
+.viewing-box{
+max-width:850px;
+margin:auto;
+background:#eef8f3;
+padding:35px;
+border-radius:16px;
+text-align:center;
+}
+
+.viewing-box h2{
+margin-bottom:12px;
+}
+
+.viewing-box p{
+color:#475467;
+margin-bottom:10px;
+}
+
+.fee{
+font-size:28px;
+font-weight:800;
+color:#087f5b;
+margin:15px 0;
 }
 
 .cta{
-  background:#087f5b;
-  color:#fff;
-  text-align:center;
+background:#087f5b;
+color:white;
+text-align:center;
 }
 
 .cta p{
-  max-width:650px;
-  margin:12px auto 22px;
+max-width:650px;
+margin:12px auto 22px;
 }
 
 .cta .btn{
-  background:#fff;
-  color:#087f5b;
+background:white;
+color:#087f5b;
 }
 
 footer{
-  background:#101828;
-  color:#fff;
-  padding:38px 24px;
-  text-align:center;
+background:#101828;
+color:white;
+text-align:center;
+padding:40px 22px;
 }
 
 footer p{
-  color:#b8c0cc;
-  margin-top:7px;
+color:#b8c0cc;
+margin-top:7px;
 }
 
 @media(max-width:800px){
 
-  nav{
-    display:none;
-  }
-
-  .hero{
-    padding:55px 20px;
-  }
-
-  .hero-inner{
-    grid-template-columns:1fr;
-    gap:35px;
-  }
-
-  h1{
-    font-size:42px;
-  }
-
-  section{
-    padding:55px 20px;
-  }
-
-  .features,
-  .property-grid{
-    grid-template-columns:1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .full{
-    grid-column:auto;
-  }
+nav{
+display:none;
 }
+
+.hero{
+padding:55px 20px;
+}
+
+.hero-inner{
+grid-template-columns:1fr;
+gap:35px;
+}
+
+h1{
+font-size:42px;
+}
+
+section{
+padding:55px 20px;
+}
+
+.property-grid,
+.about-grid{
+grid-template-columns:1fr;
+}
+
+}
+
 </style>
 </head>
 
+
 <body>
 
+
 <header>
+
 <div class="navbar">
 
 <div class="logo">
@@ -386,27 +398,37 @@ Nyumbani Housing
 </div>
 
 <nav>
+
 <a href="#home">Home</a>
+
 <a href="#properties">Properties</a>
-<a href="#list">List Property</a>
+
+<a href="#viewing">Viewing</a>
+
 <a href="#about">About</a>
+
+<a href="#contact">Contact</a>
+
 </nav>
 
 </div>
+
 </header>
+
+
 
 <main>
 
-<!-- HERO -->
 
 <section class="hero" id="home">
 
 <div class="hero-inner">
 
+
 <div>
 
 <div class="badge">
-🏠 Housing across Kenya
+🏠 Trusted Property Listings in Kenya
 </div>
 
 <h1>
@@ -415,9 +437,8 @@ Find a place you can
 </h1>
 
 <p>
-Discover houses, apartments, bedsitters and properties
-across Kenya. Nyumbani Housing makes finding your next
-home simple.
+Discover quality houses, apartments, bedsitters
+and properties across Kenya with Nyumbani Housing.
 </p>
 
 <div class="buttons">
@@ -426,8 +447,8 @@ home simple.
 Explore Properties
 </a>
 
-<a href="#list" class="btn secondary">
-List Your Property
+<a href="#contact" class="btn secondary">
+Contact Us
 </a>
 
 </div>
@@ -435,7 +456,6 @@ List Your Property
 </div>
 
 
-<!-- SEARCH -->
 
 <div class="search-card">
 
@@ -444,16 +464,24 @@ Find Your Home
 </h2>
 
 <div class="field">
-<label>Location</label>
+
+<label>
+Location
+</label>
 
 <input
 id="location"
 type="text"
-placeholder="e.g. Nairobi, Kiambu, Mombasa">
+placeholder="e.g. Nairobi">
+
 </div>
 
+
 <div class="field">
-<label>Property Type</label>
+
+<label>
+Property Type
+</label>
 
 <select id="type">
 
@@ -462,15 +490,23 @@ Any property
 </option>
 
 <option>Apartment</option>
+
 <option>House</option>
+
 <option>Bedsitter</option>
+
 <option>Land</option>
 
 </select>
+
 </div>
 
+
 <div class="field">
-<label>Price Range</label>
+
+<label>
+Price Range
+</label>
 
 <select id="price">
 
@@ -480,20 +516,16 @@ Any price
 
 <option>Under KSh 10,000</option>
 
-<option>
-KSh 10,000 - 25,000
-</option>
+<option>KSh 10,000 - 25,000</option>
 
-<option>
-KSh 25,000 - 50,000
-</option>
+<option>KSh 25,000 - 50,000</option>
 
-<option>
-Above KSh 50,000
-</option>
+<option>Above KSh 50,000</option>
 
 </select>
+
 </div>
+
 
 <button
 class="search-btn"
@@ -506,86 +538,15 @@ onclick="searchHomes()">
 </div>
 
 </div>
+
 </section>
 
 
-<!-- ABOUT -->
 
-<section id="about">
-
-<div class="container">
-
-<div class="section-title">
-
-<h2>
-Everything you need
-</h2>
-
-<p>
-Making property hunting easier for everyone.
-</p>
-
-</div>
-
-<div class="features">
-
-<div class="feature">
-
-<div class="icon">🏠</div>
-
-<h3>
-Find a Home
-</h3>
-
-<p>
-Search for homes, apartments and rental properties
-in locations across Kenya.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<div class="icon">📍</div>
-
-<h3>
-Great Locations
-</h3>
-
-<p>
-Discover properties in Nairobi, Kiambu, Mombasa
-and other growing areas.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<div class="icon">🤝</div>
-
-<h3>
-List Your Property
-</h3>
-
-<p>
-Property owners can showcase their homes and
-connect with potential tenants.
-</p>
-
-</div>
-
-</div>
-</div>
-</section>
-
-
-<!-- PROPERTIES -->
-
-<section class="properties" id="properties">
+<section id="properties" class="properties">
 
 <div class="container">
+
 
 <div class="section-title">
 
@@ -594,12 +555,15 @@ Featured Properties
 </h2>
 
 <p>
-Explore homes available on Nyumbani Housing.
+Explore properties currently listed by Nyumbani Housing.
 </p>
 
 </div>
 
+
+
 <div class="property-grid">
+
 
 
 <div class="property">
@@ -622,16 +586,38 @@ Modern Apartment
 KSh 35,000 / month
 </div>
 
+
+<div class="viewing-fee">
+
+<strong>
+👀 Viewing Fee: KSh 1,500
+</strong>
+
+The customer must book a viewing
+with our House Tour Agent before visiting.
+
+</div>
+
+
+<div class="agent-note">
+⚠️ Please wait for confirmation of your
+viewing appointment before travelling to the property.
+</div>
+
+
 <a
 href="#contact"
 class="property-btn">
 
-View Property
+Book a Viewing — KSh 1,500
 
 </a>
 
 </div>
+
 </div>
+
+
 
 
 <div class="property">
@@ -654,16 +640,38 @@ Family Home
 KSh 75,000 / month
 </div>
 
+
+<div class="viewing-fee">
+
+<strong>
+👀 Viewing Fee: KSh 1,500
+</strong>
+
+The customer must book a viewing
+with our House Tour Agent before visiting.
+
+</div>
+
+
+<div class="agent-note">
+⚠️ Please wait for confirmation of your
+viewing appointment before travelling to the property.
+</div>
+
+
 <a
 href="#contact"
 class="property-btn">
 
-View Property
+Book a Viewing — KSh 1,500
 
 </a>
 
 </div>
+
 </div>
+
+
 
 
 <div class="property">
@@ -686,258 +694,190 @@ Affordable Apartment
 KSh 20,000 / month
 </div>
 
+
+<div class="viewing-fee">
+
+<strong>
+👀 Viewing Fee: KSh 1,500
+</strong>
+
+The customer must book a viewing
+with our House Tour Agent before visiting.
+
+</div>
+
+
+<div class="agent-note">
+⚠️ Please wait for confirmation of your
+viewing appointment before travelling to the property.
+</div>
+
+
 <a
 href="#contact"
 class="property-btn">
 
-View Property
+Book a Viewing — KSh 1,500
 
 </a>
 
 </div>
+
+</div>
+
+
+
 </div>
 
 </div>
-</div>
+
 </section>
 
 
-<!-- LIST PROPERTY -->
 
-<section class="list-property" id="list">
+<section id="viewing" class="viewing-section">
 
 <div class="container">
 
-<div class="section-title">
+<div class="viewing-box">
 
 <h2>
-List Your Property
+🏠 Property Viewing
 </h2>
 
 <p>
-Have a property to rent or sell? Add it to Nyumbani Housing.
+Want to see a property in person?
+</p>
+
+<div class="fee">
+KSh 1,500 Viewing Fee
+</div>
+
+<p>
+Customers must book their viewing in advance
+with our Nyumbani Housing House Tour Agent.
+</p>
+
+<p>
+<strong>
+A confirmed appointment is required before visiting
+any property.
+</strong>
 </p>
 
 </div>
 
-<div class="form-wrapper">
-
-<div class="form-card">
-
-<div class="note">
-💡 Fill in your property details below. We will connect this
-form to permanent property storage in the next stage.
 </div>
 
-
-<form onsubmit="submitProperty(event)">
-
-<div class="form-grid">
-
-
-<div class="field">
-
-<label>
-Your Name *
-</label>
-
-<input
-id="ownerName"
-type="text"
-placeholder="Full name"
-required>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Phone Number *
-</label>
-
-<input
-id="phone"
-type="tel"
-placeholder="e.g. 0712 345 678"
-required>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Property Title *
-</label>
-
-<input
-id="propertyTitle"
-type="text"
-placeholder="e.g. Modern 2 Bedroom Apartment"
-required>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Property Type *
-</label>
-
-<select id="propertyType" required>
-
-<option value="">
-Select type
-</option>
-
-<option>Apartment</option>
-<option>House</option>
-<option>Bedsitter</option>
-<option>Land</option>
-<option>Commercial Property</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Location *
-</label>
-
-<input
-id="propertyLocation"
-type="text"
-placeholder="e.g. Kilimani, Nairobi"
-required>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Price *
-</label>
-
-<input
-id="propertyPrice"
-type="number"
-placeholder="e.g. 35000"
-required>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Bedrooms
-</label>
-
-<select id="bedrooms">
-
-<option value="">
-Select
-</option>
-
-<option>Studio</option>
-<option>1 Bedroom</option>
-<option>2 Bedrooms</option>
-<option>3 Bedrooms</option>
-<option>4+ Bedrooms</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Listing Type
-</label>
-
-<select id="listingType">
-
-<option>For Rent</option>
-<option>For Sale</option>
-
-</select>
-
-</div>
-
-
-<div class="field full">
-
-<label>
-Property Description *
-</label>
-
-<textarea
-id="description"
-placeholder="Describe your property, nearby amenities, security, parking, etc."
-required></textarea>
-
-</div>
-
-
-<div class="field full">
-
-<label>
-Property Photo
-</label>
-
-<input
-id="photo"
-type="file"
-accept="image/*">
-
-</div>
-
-</div>
-
-
-<button
-type="submit"
-class="submit-btn">
-
-🏠 Submit Property
-
-</button>
-
-</form>
-
-</div>
-</div>
-</div>
 </section>
 
 
-<!-- CONTACT -->
+
+<section id="about">
+
+<div class="container">
+
+
+<div class="section-title">
+
+<h2>
+Why Nyumbani Housing?
+</h2>
+
+<p>
+A simple way to discover properties in Kenya.
+</p>
+
+</div>
+
+
+
+<div class="about-grid">
+
+
+<div class="about-card">
+
+<div class="icon">
+🏠
+</div>
+
+<h3>
+Quality Homes
+</h3>
+
+<p>
+Browse carefully presented properties with
+important information about each home.
+</p>
+
+</div>
+
+
+
+<div class="about-card">
+
+<div class="icon">
+📍
+</div>
+
+<h3>
+Convenient Locations
+</h3>
+
+<p>
+Find properties in Nairobi, Kiambu, Mombasa
+and other locations across Kenya.
+</p>
+
+</div>
+
+
+
+<div class="about-card">
+
+<div class="icon">
+🤝
+</div>
+
+<h3>
+House Tour Agent
+</h3>
+
+<p>
+Our House Tour Agent coordinates property
+viewings after customers book an appointment.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
 
 <section class="cta" id="contact">
 
 <div class="container">
 
 <h2>
-Ready to find your next home?
+Ready to view a property?
 </h2>
 
 <p>
-Explore properties or list your own property on
-Nyumbani Housing.
+Book your property viewing with Nyumbani Housing.
+The viewing fee is KSh 1,500 and an appointment
+with our House Tour Agent is required.
 </p>
 
 <a
-href="#list"
+href="mailto:info@nyumbanihousing.co.ke"
 class="btn">
 
-List Your Property
+Book a Viewing
 
 </a>
 
@@ -945,7 +885,9 @@ List Your Property
 
 </section>
 
+
 </main>
+
 
 
 <footer>
@@ -963,6 +905,7 @@ Find your home. Build your future.
 </p>
 
 </footer>
+
 
 
 <script>
@@ -985,58 +928,39 @@ alert(
 );
 
 return;
+
 }
 
 let message =
 "Searching properties";
 
 if(location){
+
 message += " in " + location;
+
 }
 
 if(type){
+
 message += " | " + type;
+
 }
 
 if(price){
+
 message += " | " + price;
+
 }
 
 alert(
 message +
-". Property listings will be connected in the next stage."
-);
-
-}
-
-
-function submitProperty(event){
-
-event.preventDefault();
-
-const name =
-document.getElementById("ownerName").value;
-
-const title =
-document.getElementById("propertyTitle").value;
-
-const location =
-document.getElementById("propertyLocation").value;
-
-const price =
-document.getElementById("propertyPrice").value;
-
-alert(
-"Thank you, " +
-name +
-"! Your property '" +
-title +
-"' has been prepared for submission. We will connect permanent property storage in the next stage."
+". The property database will be connected in the next stage."
 );
 
 }
 
 </script>
+
 
 </body>
 </html>
