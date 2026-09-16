@@ -1,434 +1,492 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nyumbani Housing | Find Your Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nyumbani Housing | Find Your Home</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      color: #172033;
-      background: #ffffff;
-      line-height: 1.6;
-    }
+body{
+  font-family:Arial,sans-serif;
+  color:#172033;
+  background:#f7faf8;
+  line-height:1.6;
+}
 
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #eeeeee;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+header{
+  background:white;
+  border-bottom:1px solid #e5e7eb;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
 
-    .navbar {
-      max-width: 1200px;
-      margin: auto;
-      padding: 18px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+.navbar{
+  max-width:1200px;
+  margin:auto;
+  padding:18px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-    .logo {
-      font-size: 24px;
-      font-weight: 800;
-      color: #176b4d;
-    }
+.logo{
+  font-size:25px;
+  font-weight:800;
+  color:#087f5b;
+}
 
-    .nav-links {
-      display: flex;
-      gap: 25px;
-      list-style: none;
-    }
+nav a{
+  text-decoration:none;
+  color:#172033;
+  margin-left:25px;
+  font-weight:600;
+}
 
-    .nav-links a {
-      text-decoration: none;
-      color: #172033;
-      font-weight: 600;
-    }
+nav a:hover{
+  color:#087f5b;
+}
 
-    .nav-button {
-      background: #176b4d;
-      color: white !important;
-      padding: 10px 18px;
-      border-radius: 8px;
-    }
+.hero{
+  background:linear-gradient(135deg,#eef8f3,#ffffff);
+  padding:80px 24px;
+}
 
-    .hero {
-      background: #f3f8f5;
-      padding: 80px 24px;
-    }
+.hero-inner{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:50px;
+  align-items:center;
+}
 
-    .hero-content {
-      max-width: 1200px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 50px;
-      align-items: center;
-    }
+.badge{
+  display:inline-block;
+  background:#dff4eb;
+  color:#087f5b;
+  padding:8px 14px;
+  border-radius:30px;
+  font-weight:bold;
+  margin-bottom:20px;
+}
 
-    .hero h1 {
-      font-size: 52px;
-      line-height: 1.1;
-      margin-bottom: 20px;
-    }
+h1{
+  font-size:58px;
+  line-height:1.08;
+  margin-bottom:22px;
+}
 
-    .hero h1 span {
-      color: #176b4d;
-    }
+h1 span{
+  color:#087f5b;
+}
 
-    .hero p {
-      font-size: 18px;
-      color: #5c6575;
-      margin-bottom: 30px;
-      max-width: 550px;
-    }
+.hero p{
+  color:#667085;
+  font-size:19px;
+  margin-bottom:30px;
+}
 
-    .hero-buttons {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+.buttons{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
 
-    .btn {
-      display: inline-block;
-      padding: 14px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-    }
+.btn{
+  display:inline-block;
+  padding:14px 24px;
+  border-radius:9px;
+  text-decoration:none;
+  font-weight:bold;
+  border:1px solid #087f5b;
+}
 
-    .btn-primary {
-      background: #176b4d;
-      color: white;
-    }
+.primary{
+  background:#087f5b;
+  color:white;
+}
 
-    .btn-secondary {
-      border: 1px solid #176b4d;
-      color: #176b4d;
-      background: white;
-    }
+.secondary{
+  color:#087f5b;
+  background:white;
+}
 
-    .hero-card {
-      background: white;
-      border-radius: 18px;
-      padding: 35px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-    }
+.search-card{
+  background:white;
+  padding:28px;
+  border-radius:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
 
-    .hero-card h3 {
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
+.search-card h2{
+  margin-bottom:20px;
+}
 
-    .search-box {
-      display: grid;
-      gap: 15px;
-    }
+.field{
+  margin-bottom:15px;
+}
 
-    .search-box input,
-    .search-box select {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #dddddd;
-      border-radius: 8px;
-      font-size: 15px;
-    }
+.field label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:7px;
+}
 
-    .search-box button {
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      background: #176b4d;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+.field input,
+.field select{
+  width:100%;
+  padding:14px;
+  border:1px solid #d9dee5;
+  border-radius:9px;
+  font-size:15px;
+  background:white;
+}
 
-    section {
-      padding: 70px 24px;
-    }
+.search-btn{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:9px;
+  background:#087f5b;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .section-title {
-      max-width: 1200px;
-      margin: 0 auto 40px;
-      text-align: center;
-    }
+section{
+  padding:70px 24px;
+}
 
-    .section-title h2 {
-      font-size: 34px;
-      margin-bottom: 10px;
-    }
+.container{
+  max-width:1200px;
+  margin:auto;
+}
 
-    .section-title p {
-      color: #697386;
-    }
+.section-title{
+  text-align:center;
+  margin-bottom:40px;
+}
 
-    .features {
-      max-width: 1200px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-    }
+.section-title h2{
+  font-size:36px;
+  margin-bottom:10px;
+}
 
-    .feature {
-      padding: 30px;
-      border: 1px solid #eeeeee;
-      border-radius: 14px;
-      background: white;
-    }
+.section-title p{
+  color:#667085;
+}
 
-    .feature-icon {
-      font-size: 35px;
-      margin-bottom: 15px;
-    }
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
 
-    .feature h3 {
-      margin-bottom: 10px;
-    }
+.feature{
+  background:white;
+  padding:30px;
+  border:1px solid #e5e7eb;
+  border-radius:15px;
+}
 
-    .feature p {
-      color: #697386;
-    }
+.icon{
+  font-size:35px;
+  margin-bottom:15px;
+}
 
-    .properties {
-      background: #f8faf9;
-    }
+.feature h3{
+  margin-bottom:10px;
+}
 
-    .property-grid {
-      max-width: 1200px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-    }
+.feature p{
+  color:#667085;
+}
 
-    .property {
-      background: white;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #eeeeee;
-    }
+.properties{
+  background:#eef6f2;
+}
 
-    .property-image {
-      height: 200px;
-      background: #dfe9e4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #176b4d;
-      font-size: 45px;
-    }
+.property-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:25px;
+}
 
-    .property-info {
-      padding: 20px;
-    }
+.property{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  border:1px solid #e5e7eb;
+}
 
-    .property-info h3 {
-      margin-bottom: 8px;
-    }
+.property-image{
+  height:190px;
+  background:#dcefe7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:55px;
+}
 
-    .property-info p {
-      color: #697386;
-      margin-bottom: 10px;
-    }
+.property-info{
+  padding:22px;
+}
 
-    .price {
-      color: #176b4d;
-      font-size: 20px;
-      font-weight: 800;
-    }
+.location{
+  color:#667085;
+  margin:6px 0;
+}
 
-    .cta {
-      text-align: center;
-      background: #176b4d;
-      color: white;
-    }
+.price{
+  color:#087f5b;
+  font-size:20px;
+  font-weight:bold;
+}
 
-    .cta p {
-      margin: 15px auto 25px;
-      max-width: 600px;
-      opacity: 0.9;
-    }
+.property-btn{
+  display:block;
+  margin-top:15px;
+  text-align:center;
+  padding:11px;
+  background:#087f5b;
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:bold;
+}
 
-    .cta .btn {
-      background: white;
-      color: #176b4d;
-    }
+.cta{
+  background:#087f5b;
+  color:white;
+  text-align:center;
+}
 
-    footer {
-      background: #111827;
-      color: white;
-      padding: 35px 24px;
-      text-align: center;
-    }
+.cta p{
+  max-width:650px;
+  margin:15px auto 25px;
+}
 
-    footer p {
-      color: #b8c0cc;
-    }
+.cta .btn{
+  background:white;
+  color:#087f5b;
+}
 
-    @media (max-width: 800px) {
-      .nav-links {
-        display: none;
-      }
+footer{
+  background:#101828;
+  color:white;
+  padding:40px 24px;
+  text-align:center;
+}
 
-      .hero-content {
-        grid-template-columns: 1fr;
-      }
+footer p{
+  color:#b8c0cc;
+  margin-top:8px;
+}
 
-      .hero h1 {
-        font-size: 40px;
-      }
+@media(max-width:800px){
+  .navbar{
+    padding:16px 18px;
+  }
 
-      .features,
-      .property-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  nav{
+    display:none;
+  }
+
+  .hero{
+    padding:55px 20px;
+  }
+
+  .hero-inner{
+    grid-template-columns:1fr;
+    gap:35px;
+  }
+
+  h1{
+    font-size:43px;
+  }
+
+  .hero p{
+    font-size:17px;
+  }
+
+  section{
+    padding:55px 20px;
+  }
+
+  .features,
+  .property-grid{
+    grid-template-columns:1fr;
+  }
+
+  .section-title h2{
+    font-size:30px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <nav class="navbar">
-      <div class="logo">Nyumbani Housing</div>
+<header>
+  <div class="navbar">
+    <div class="logo">Nyumbani Housing</div>
 
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#properties">Properties</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact" class="nav-button">Get Started</a></li>
-      </ul>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#properties">Properties</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <main>
+<main>
 
-    <section class="hero" id="home">
-      <div class="hero-content">
+<section class="hero" id="home">
+  <div class="hero-inner">
 
-        <div>
-          <h1>Find a place you can <span>call home.</span></h1>
+    <div>
+      <div class="badge">🏠 Housing across Kenya</div>
 
-          <p>
-            Discover houses, apartments and properties across Kenya.
-            Nyumbani Housing makes finding your next home simple.
-          </p>
+      <h1>
+        Find a place you can
+        <span>call home.</span>
+      </h1>
 
-          <div class="hero-buttons">
-            <a href="#properties" class="btn btn-primary">Explore Properties</a>
-            <a href="#contact" class="btn btn-secondary">List Your Property</a>
-          </div>
-        </div>
+      <p>
+        Discover houses, apartments, bedsitters and properties
+        across Kenya. Nyumbani Housing makes finding your next
+        home simple.
+      </p>
 
-        <div class="hero-card">
-          <h3>Find your home</h3>
+      <div class="buttons">
+        <a href="#properties" class="btn primary">
+          Explore Properties
+        </a>
 
-          <div class="search-box">
-            <input type="text" id="location" list="locations" placeholder="Search Nairobi or Nakuru location">
-
-<datalist id="locations">
-    <option value="Nairobi">
-    <option value="Nakuru">
-    <option value="CBD">
-    <option value="Westlands">
-    <option value="Kilimani">
-    <option value="Kileleshwa">
-    <option value="Karen">
-    <option value="Lang'ata">
-    <option value="Kasarani">
-    <option value="Roysambu">
-    <option value="Kahawa West">
-    <option value="Embakasi">
-    <option value="South B">
-    <option value="South C">
-    <option value="Parklands">
-    <option value="Lavington">
-    <option value="Runda">
-    <option value="Gigiri">
-    <option value="Nairobi West">
-    <option value="Kawangware">
-    <option value="Riruta">
-    <option value="Dagoretti">
-    <option value="Nairobi CBD">
-    <option value="Sarit Centre">
-    <option value="Westgate Mall">
-    <option value="Garden City Mall">
-    <option value="Two Rivers Mall">
-    <option value="The Junction Mall">
-    <option value="Yaya Centre">
-    <option value="University of Nairobi">
-    <option value="Kenyatta University">
-    <option value="USIU-Africa">
-    <option value="Nairobi Institute of Technology">
-    <option value="Kenya Utalii College">
-    <option value="Muthurwa Stage">
-    <option value="Kencom Stage">
-    <option value="Odeon Stage">
-    <option value="Railways Stage">
-    <option value="Nakuru CBD">
-    <option value="Milimani">
-    <option value="Section 58">
-    <option value="Lanet">
-    <option value="Kiamunyi">
-    <option value="Free Area">
-    <option value="Pipeline">
-    <option value="London">
-    <option value="Barnabas">
-    <option value="Shabab">
-    <option value="Bondeni">
-    <option value="Kivumbini">
-    <option value="Kaloleni">
-    <option value="Naka">
-    <option value="Ngata">
-    <option value="Mwariki">
-    <option value="Njoro">
-    <option value="Westside Mall">
-    <option value="Egerton University">
-    <option value="Kabarak University">
-    <option value="Mount Kenya University Nakuru">
-    <option value="Kenyatta University Nakuru">
-    <option value="KMTC Nakuru">
-    <option value="Railways Terminus">
-    <option value="Ziwani Bus Park">
-    <option value="Gateiguru Bus Park">
-    <option value="KFA Bus Park">
-</datalist>
-
-            <select>
-              <option>Property Type</option>
-              <option>Apartment</option>
-              <option>House</option>
-              <option>Bedsitter</option>
-              <option>Land</option>
-            </select>
-
-            <select>
-              <option>Price Range</option>
-              <option>Under KSh 10,000</option>
-              <option>KSh 10,000 - 25,000</option>
-              <option>KSh 25,000 - 50,000</option>
-              <option>Above KSh 50,000</option>
-            </select>
-
-            <button onclick="searchProperties()">Search Properties</button>
-          </div>
-        </div>
-
+        <a href="#contact" class="btn secondary">
+          List Your Property
+        </a>
       </div>
-    </section>
+    </div>
 
-    <section id="about">
-      <div class="section-title">
-        <h2>Everything you need to find your home</h2
+    <div class="search-card">
+      <h2>Find your home</h2>
+
+      <div class="field">
+        <label>Location</label>
+        <input id="location" type="text"
+          placeholder="e.g. Nairobi, Kiambu, Mombasa">
+      </div>
+
+      <div class="field">
+        <label>Property Type</label>
+        <select id="type">
+          <option value="">Any property</option>
+          <option>Apartment</option>
+          <option>House</option>
+          <option>Bedsitter</option>
+          <option>Land</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Price Range</label>
+        <select id="price">
+          <option value="">Any price</option>
+          <option>Under KSh 10,000</option>
+          <option>KSh 10,000 - 25,000</option>
+          <option>KSh 25,000 - 50,000</option>
+          <option>Above KSh 50,000</option>
+        </select>
+      </div>
+
+      <button class="search-btn" onclick="searchHomes()">
+        🔍 Search Properties
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Everything you need</h2>
+      <p>Making property hunting easier for everyone.</p>
+    </div>
+
+    <div class="features">
+
+      <div class="feature">
+        <div class="icon">🏠</div>
+        <h3>Find a Home</h3>
+        <p>
+          Search for homes, apartments and rental properties
+          in locations across Kenya.
+        </p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">📍</div>
+        <h3>Great Locations</h3>
+        <p>
+          Discover properties in Nairobi, Kiambu, Mombasa
+          and other growing areas.
+        </p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">🤝</div>
+        <h3>List Your Property</h3>
+        <p>
+          Property owners can showcase their homes and
+          connect with potential tenants.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="properties" id="properties">
+
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Featured Properties</h2>
+      <p>Explore some of the homes available on Nyumbani Housing.</p>
+    </div>
+
+    <div class="property-grid">
+
+      <div class="property">
+        <div class="property-image">🏢</div>
+        <div class="property-info">
+          <h3>Modern Apartment</h3>
+          <div class="location">📍 Westlands, Nairobi</div>
+          <div class="price">KSh 35,000 / month</div>
+          <a href="#contact" class="property-btn">View Property</a>
+        </div>
+      </div>
+
+      <div class="property">
+        <div class="property-image">🏡</div>
+        <div class="property-info">
+          <h3>Family Home</h3>
+          <div class="location">📍 Karen, Nairobi</div>
+          <div class="price">KSh 75,000 / month</div>
+          <a href="#contact" class="property-btn">View Property</a>
+        </div>
+      </div>
+
+      <div class="
