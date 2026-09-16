@@ -1,181 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Nyumbani Housing | Admin Login</title>
-
-<style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
-body{
-font-family:Arial,sans-serif;
-background:#eef8f3;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-}
-
-.login-box{
-background:white;
-width:100%;
-max-width:420px;
-padding:35px;
-border-radius:18px;
-box-shadow:0 12px 35px rgba(0,0,0,.10);
-}
-
-.logo{
-text-align:center;
-font-size:27px;
-font-weight:800;
-color:#087f5b;
-margin-bottom:8px;
-}
-
-.subtitle{
-text-align:center;
-color:#667085;
-margin-bottom:28px;
-}
-
-label{
-display:block;
-font-weight:bold;
-margin-bottom:7px;
-}
-
-input{
-width:100%;
-padding:14px;
-border:1px solid #d9dee5;
-border-radius:8px;
-font-size:16px;
-margin-bottom:17px;
-}
-
-button{
-width:100%;
-padding:14px;
-border:0;
-border-radius:8px;
-background:#087f5b;
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-button:hover{
-background:#066b4d;
-}
-
-.message{
-margin-top:15px;
-text-align:center;
-font-weight:bold;
-}
-
-.back{
-display:block;
-text-align:center;
-margin-top:20px;
-color:#087f5b;
-text-decoration:none;
-font-weight:bold;
-}
-</style>
-</head>
-
-<body>
-
-<div class="login-box">
-
-<div class="logo">
-🏠 Nyumbani Housing
-</div>
-
-<div class="subtitle">
-Admin Login
-</div>
-
-<form onsubmit="adminLogin(event)">
-
-<label>Email Address</label>
-
-<input
-id="email"
-type="email"
-placeholder="Admin email"
-required
->
-
-<label>Password</label>
-
-<input
-id="password"
-type="password"
-placeholder="Password"
-required
->
-
-<button type="submit">
-Login
-</button>
-
-<div id="message" class="message"></div>
-
-</form>
-
-<a href="index.html" class="back">
-← Back to Nyumbani Housing
-</a>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-function adminLogin(event){
+const SUPABASE_URL =
+"https://lcevyljupucnynpivygr.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_GYJxHmYaDMn-8McoGduBLw_ZMhWg5EO";
+
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+async function adminLogin(event){
 
 event.preventDefault();
 
 const email =
-document.getElementById("email").value.trim();
+document.getElementById("email")
+.value
+.trim();
 
 const password =
-document.getElementById("password").value;
+document.getElementById("password")
+.value;
 
 const message =
 document.getElementById("message");
 
-/*
-Temporary login screen.
-We will connect this to Supabase
-authentication in the next step.
-*/
 
-if(email && password){
+message.style.color="#667085";
+message.innerText="Logging in...";
 
-message.style.color="#087f5b";
-message.innerText="Login details received.";
 
-}else{
+const { data, error } =
+await supabaseClient.auth.signInWithPassword({
+
+email: email,
+
+password: password
+
+});
+
+
+if(error){
 
 message.style.color="#d92d20";
-message.innerText="Please enter your email and password.";
+
+message.innerText =
+"Login failed: " + error.message;
+
+return;
 
 }
+
+
+message.style.color="#087f5b";
+
+message.innerText =
+"Login successful!";
+
 
 }
 
 </script>
-
-</body>
-</html>
