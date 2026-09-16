@@ -112,32 +112,22 @@ textarea{
   font-weight:bold;
 }
 
-.add:disabled{
-  background:#98a2b3;
-}
-
 .message{
   text-align:center;
   margin-top:15px;
   font-weight:bold;
 }
 
-.image-help{
-  font-size:14px;
-  color:#667085;
-  margin-top:7px;
-}
-
-.preview-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
+.photo-preview{
+  display:flex;
+  flex-wrap:wrap;
   gap:10px;
   margin-top:12px;
 }
 
-.preview-grid img{
-  width:100%;
-  height:150px;
+.photo-preview img{
+  width:110px;
+  height:90px;
   object-fit:cover;
   border-radius:10px;
   border:1px solid #ddd;
@@ -156,25 +146,18 @@ textarea{
 }
 
 .property-images{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
+  display:flex;
   gap:8px;
-  margin-bottom:14px;
+  overflow-x:auto;
+  margin-bottom:12px;
 }
 
 .property-images img{
-  width:100%;
-  height:170px;
+  width:130px;
+  height:100px;
   object-fit:cover;
-  border-radius:9px;
-}
-
-.viewing-fee{
-  background:#e8f7f1;
-  padding:10px;
-  border-radius:8px;
-  font-weight:bold;
-  color:#087f5b;
+  border-radius:10px;
+  flex-shrink:0;
 }
 
 .delete{
@@ -187,21 +170,8 @@ textarea{
 }
 
 @media(max-width:600px){
-
   .stats{
     grid-template-columns:1fr;
-  }
-
-  header h1{
-    font-size:18px;
-  }
-
-  .preview-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .property-images{
-    grid-template-columns:repeat(2,1fr);
   }
 }
 </style>
@@ -308,7 +278,7 @@ Area / Landmark
 <input
 id="area"
 type="text"
-placeholder="e.g. Westlands, CBD, Egerton, Stage, Mall"
+placeholder="e.g. Westlands, CBD, Ngara, Stage, Mall"
 >
 
 
@@ -373,7 +343,6 @@ id="viewingFee"
 type="number"
 value="1500"
 min="0"
-placeholder="e.g. 1500"
 >
 
 
@@ -392,19 +361,19 @@ Property Photos
 </label>
 
 <input
-id="propertyImage"
+id="imageFiles"
 type="file"
 accept="image/*"
 multiple
 >
 
-<div class="image-help">
-📷 You can select multiple photos from your phone gallery.
-</div>
+<p>
+📷 Select multiple photos from your phone gallery.
+</p>
 
 <div
-id="previewGrid"
-class="preview-grid"
+id="photoPreview"
+class="photo-preview"
 ></div>
 
 
@@ -414,741 +383,4 @@ Contact Phone
 
 <input
 id="phone"
-type="tel"
-placeholder="0700000000"
->
-
-
-<button
-id="addButton"
-class="add"
-onclick="addProperty()"
->
-➕ Add Property
-</button>
-
-
-<div
-id="message"
-class="message"
-></div>
-
-</div>
-
-
-<div class="box">
-
-<h2>📋 Property Listings</h2>
-
-<div id="propertyList">
-
-Loading properties...
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<script>
-
-const SUPABASE_URL =
-"https://lcevyljupucnynpivygr.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_GYJxHmYaDMn-8McoGduBLw_ZMhWg5EO";
-
-const supabaseClient =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
-
-/* CHECK ADMIN LOGIN */
-
-async function checkLogin(){
-
-const {
-data:{
-session
-}
-}
-=
-await supabaseClient.auth.getSession();
-
-if(!session){
-
-window.location.href =
-"admin.html";
-
-return false;
-
-}
-
-return true;
-
-}
-
-
-/* IMAGE PREVIEWS */
-
-document
-.getElementById("propertyImage")
-.addEventListener(
-"change",
-function(){
-
-const files =
-Array.from(this.files);
-
-const previewGrid =
-document.getElementById(
-"previewGrid"
-);
-
-previewGrid.innerHTML = "";
-
-files.forEach(function(file){
-
-if(!file.type.startsWith("image/")){
-return;
-}
-
-const imageURL =
-URL.createObjectURL(file);
-
-const img =
-document.createElement("img");
-
-img.src =
-imageURL;
-
-img.alt =
-"Property photo";
-
-previewGrid.appendChild(img);
-
-});
-
-});
-
-
-/* UPLOAD ONE IMAGE */
-
-async function uploadPropertyImage(file){
-
-const extension =
-file.name
-.split(".")
-.pop()
-.toLowerCase();
-
-const fileName =
-Date.now()
-+
-"-"
-+
-Math.random()
-.toString(36)
-.substring(2)
-+
-"."
-+
-extension;
-
-const filePath =
-"properties/"
-+
-fileName;
-
-
-const {
-error
-}
-=
-await supabaseClient
-.storage
-.from("property-images")
-.upload(
-filePath,
-file,
-{
-cacheControl:"3600",
-upsert:false
-}
-);
-
-
-if(error){
-
-throw new Error(
-"Image upload failed: "
-+
-error.message
-);
-
-}
-
-
-const {
-data
-}
-=
-supabaseClient
-.storage
-.from("property-images")
-.getPublicUrl(
-filePath
-);
-
-
-return data.publicUrl;
-
-}
-
-
-/* UPLOAD MULTIPLE IMAGES */
-
-async function uploadMultipleImages(files){
-
-const imageURLs = [];
-
-for(
-let i = 0;
-i < files.length;
-i++
-){
-
-const url =
-await uploadPropertyImage(
-files[i]
-);
-
-imageURLs.push(url);
-
-}
-
-return imageURLs;
-
-}
-
-
-/* ADD PROPERTY */
-
-async function addProperty(){
-
-const loggedIn =
-await checkLogin();
-
-if(!loggedIn){
-return;
-}
-
-
-const name =
-document.getElementById(
-"propertyName"
-).value.trim();
-
-const location =
-document.getElementById(
-"location"
-).value;
-
-const area =
-document.getElementById(
-"area"
-).value.trim();
-
-const type =
-document.getElementById(
-"propertyType"
-).value;
-
-const price =
-document.getElementById(
-"price"
-).value;
-
-const viewingFee =
-document.getElementById(
-"viewingFee"
-).value;
-
-const description =
-document.getElementById(
-"description"
-).value.trim();
-
-const imageFiles =
-Array.from(
-document.getElementById(
-"propertyImage"
-).files
-);
-
-const phone =
-document.getElementById(
-"phone"
-).value.trim();
-
-const message =
-document.getElementById(
-"message"
-);
-
-const addButton =
-document.getElementById(
-"addButton"
-);
-
-
-if(
-!name ||
-!location ||
-!area ||
-!type ||
-!price ||
-!phone
-){
-
-message.style.color =
-"#d92d20";
-
-message.innerText =
-"Please fill in all required fields.";
-
-return;
-
-}
-
-
-if(imageFiles.length === 0){
-
-message.style.color =
-"#d92d20";
-
-message.innerText =
-"Please choose at least one property photo.";
-
-return;
-
-}
-
-
-/* CHECK IMAGE SIZE */
-
-for(
-const file of imageFiles
-){
-
-if(
-file.size >
-10 * 1024 * 1024
-){
-
-message.style.color =
-"#d92d20";
-
-message.innerText =
-"Each image must be under 10MB.";
-
-return;
-
-}
-
-}
-
-
-addButton.disabled =
-true;
-
-message.style.color =
-"#667085";
-
-message.innerText =
-"Uploading property photos...";
-
-
-try{
-
-
-/* UPLOAD ALL PHOTOS */
-
-const imageURLs =
-await uploadMultipleImages(
-imageFiles
-);
-
-
-message.innerText =
-"Saving property...";
-
-
-/* SAVE PROPERTY */
-
-const {
-error
-}
-=
-await supabaseClient
-.from("properties")
-.insert([
-
-{
-
-title:name,
-
-location:location,
-
-area:area,
-
-property_type:type,
-
-price:Number(price),
-
-viewing_fee:
-Number(viewingFee || 1500),
-
-description:description,
-
-image_url:
-imageURLs[0] || "",
-
-image_urls:
-imageURLs,
-
-contact_phone:phone
-
-}
-
-]);
-
-
-if(error){
-
-throw new Error(
-"Property save failed: "
-+
-error.message
-);
-
-}
-
-
-/* SUCCESS */
-
-message.style.color =
-"#087f5b";
-
-message.innerText =
-"✅ Property added successfully!";
-
-
-/* CLEAR FORM */
-
-document.getElementById(
-"propertyName"
-).value="";
-
-document.getElementById(
-"location"
-).value="";
-
-document.getElementById(
-"area"
-).value="";
-
-document.getElementById(
-"propertyType"
-).value="";
-
-document.getElementById(
-"price"
-).value="";
-
-document.getElementById(
-"viewingFee"
-).value="1500";
-
-document.getElementById(
-"description"
-).value="";
-
-document.getElementById(
-"propertyImage"
-).value="";
-
-document.getElementById(
-"previewGrid"
-).innerHTML="";
-
-document.getElementById(
-"phone"
-).value="";
-
-
-/* REFRESH */
-
-loadProperties();
-
-
-}catch(error){
-
-message.style.color =
-"#d92d20";
-
-message.innerText =
-"Error: "
-+
-error.message;
-
-}finally{
-
-addButton.disabled =
-false;
-
-}
-
-}
-
-
-/* LOAD PROPERTIES */
-
-async function loadProperties(){
-
-const {
-data,
-error
-}
-=
-await supabaseClient
-.from("properties")
-.select("*")
-.order(
-"created_at",
-{
-ascending:false
-}
-);
-
-
-const list =
-document.getElementById(
-"propertyList"
-);
-
-
-if(error){
-
-list.innerHTML =
-"Could not load properties: "
-+
-error.message;
-
-return;
-
-}
-
-
-document.getElementById(
-"propertyCount"
-).innerText =
-data.length;
-
-
-if(data.length === 0){
-
-list.innerHTML =
-"<p>No properties added yet.</p>";
-
-return;
-
-}
-
-
-list.innerHTML =
-data.map(function(property){
-
-let images = [];
-
-
-/* USE MULTIPLE IMAGES */
-
-if(
-Array.isArray(
-property.image_urls
-)
-){
-
-images =
-property.image_urls;
-
-}
-
-
-/* SUPPORT OLD RECORDS */
-
-if(
-images.length === 0 &&
-property.image_url
-){
-
-images = [
-property.image_url
-];
-
-}
-
-
-const imagesHTML =
-images.length > 0
-?
-`
-<div class="property-images">
-
-${images.map(function(url){
-
-return `
-<img
-src="${url}"
-alt="Property photo"
-loading="lazy"
->
-`;
-
-}).join("")}
-
-</div>
-`
-:
-"";
-
-
-return `
-
-<div class="property">
-
-${imagesHTML}
-
-<h3>
-🏠 ${property.title}
-</h3>
-
-<p>
-📍 ${property.location}
--
-${property.area || ""}
-</p>
-
-<p>
-🏠 ${property.property_type}
-</p>
-
-<p>
-💰 KES ${Number(
-property.price
-).toLocaleString()}
-per month
-</p>
-
-<p class="viewing-fee">
-👀 Viewing Fee:
-KES ${Number(
-property.viewing_fee || 1500
-).toLocaleString()}
-</p>
-
-<p>
-${property.description || ""}
-</p>
-
-<p>
-📞 ${property.contact_phone || ""}
-</p>
-
-<button
-class="delete"
-onclick="deleteProperty('${property.id}')"
->
-Delete
-</button>
-
-</div>
-
-`;
-
-}).join("");
-
-}
-
-
-/* DELETE PROPERTY */
-
-async function deleteProperty(id){
-
-const answer =
-confirm(
-"Are you sure you want to delete this property?"
-);
-
-if(!answer){
-return;
-}
-
-
-const {
-error
-}
-=
-await supabaseClient
-.from("properties")
-.delete()
-.eq("id",id);
-
-
-if(error){
-
-alert(
-"Could not delete property: "
-+
-error.message
-);
-
-return;
-
-}
-
-
-loadProperties();
-
-}
-
-
-/* LOGOUT */
-
-async function logout(){
-
-await supabaseClient.auth.signOut();
-
-window.location.href =
-"admin.html";
-
-}
-
-
-/* START */
-
-checkLogin().then(function(){
-
-loadProperties();
-
-});
-
-</script>
-
-</body>
-</html>
+type
