@@ -14,6 +14,11 @@ SUPABASE_KEY
 
 let allProperties = [];
 
+
+/* ================================
+   ESCAPE HTML
+================================ */
+
 function escapeHtml(value){
 
 if(value === null || value === undefined){
@@ -37,9 +42,6 @@ return String(value)
 function getFirstImage(property){
 
 let urls = property.image_urls;
-
-/* Supabase JSONB can sometimes arrive
-   as an array and sometimes as a string */
 
 if(typeof urls === "string"){
 
@@ -72,7 +74,7 @@ return "";
 
 
 /* ================================
-   IMAGE HTML
+   CREATE IMAGE
 ================================ */
 
 function createImageHTML(property){
@@ -133,8 +135,12 @@ data
 allProperties =
 data || [];
 
+if(loading){
+
 loading.style.display =
 "none";
+
+}
 
 renderProperties(
 allProperties
@@ -147,22 +153,47 @@ console.error(
 error
 );
 
+if(loading){
+
 loading.style.display =
 "none";
 
+}
+
+const propertyGrid =
 document.getElementById(
 "propertyGrid"
-).innerHTML = "";
+);
 
+if(propertyGrid){
+
+propertyGrid.innerHTML = "";
+
+}
+
+const emptyState =
 document.getElementById(
 "emptyState"
-).style.display =
+);
+
+if(emptyState){
+
+emptyState.style.display =
 "block";
 
+}
+
+const listingCount =
 document.getElementById(
 "listingCount"
-).textContent =
+);
+
+if(listingCount){
+
+listingCount.textContent =
 "Unable to load listings";
+
+}
 
 }
 
@@ -190,7 +221,19 @@ document.getElementById(
 "listingCount"
 );
 
+if(!grid){
+
+console.error(
+"propertyGrid element not found"
+);
+
+return;
+
+}
+
 grid.innerHTML = "";
+
+if(count){
 
 count.textContent =
 properties.length +
@@ -200,17 +243,27 @@ properties.length === 1
 : " properties available"
 );
 
+}
+
 if(properties.length === 0){
+
+if(empty){
 
 empty.style.display =
 "block";
+
+}
 
 return;
 
 }
 
+if(empty){
+
 empty.style.display =
 "none";
+
+}
 
 
 properties.forEach(
@@ -224,8 +277,6 @@ document.createElement(
 card.className =
 "card";
 
-
-/* GET IMAGE */
 
 const imageHTML =
 createImageHTML(
@@ -249,8 +300,6 @@ description.length > 150
 ? description.substring(0,150) + "..."
 : description;
 
-
-/* CARD */
 
 card.innerHTML = `
 
@@ -346,7 +395,6 @@ Book Tour
 
 `;
 
-
 grid.appendChild(
 card
 );
@@ -376,16 +424,28 @@ return;
 }
 
 
+const modalTitle =
 document.getElementById(
 "modalTitle"
-).textContent =
+);
+
+if(modalTitle){
+
+modalTitle.textContent =
 property.title ||
 "Property";
 
+}
 
+
+const modalLocation =
 document.getElementById(
 "modalLocation"
-).textContent =
+);
+
+if(modalLocation){
+
+modalLocation.textContent =
 "📍 " +
 (property.area || "") +
 (
@@ -396,10 +456,17 @@ property.location
 ) +
 (property.location || "");
 
+}
 
+
+const modalPrice =
 document.getElementById(
 "modalPrice"
-).textContent =
+);
+
+if(modalPrice){
+
+modalPrice.textContent =
 "KSh " +
 Number(
 property.price || 0
@@ -410,42 +477,77 @@ property.price_period ||
 "month"
 );
 
+}
 
+
+const modalType =
 document.getElementById(
 "modalType"
-).textContent =
+);
+
+if(modalType){
+
+modalType.textContent =
 property.property_type ||
 "Not specified";
 
+}
 
+
+const modalArea =
 document.getElementById(
 "modalArea"
-).textContent =
+);
+
+if(modalArea){
+
+modalArea.textContent =
 property.area ||
 "Not specified";
 
+}
 
+
+const modalBedrooms =
 document.getElementById(
 "modalBedrooms"
-).textContent =
+);
+
+if(modalBedrooms){
+
+modalBedrooms.textContent =
 property.bedrooms !== null &&
 property.bedrooms !== undefined
 ? property.bedrooms
 : "Not specified";
 
+}
 
+
+const modalBathrooms =
 document.getElementById(
 "modalBathrooms"
-).textContent =
+);
+
+if(modalBathrooms){
+
+modalBathrooms.textContent =
 property.bathrooms !== null &&
 property.bathrooms !== undefined
 ? property.bathrooms
 : "Not specified";
 
+}
 
+
+const modalDeposit =
 document.getElementById(
 "modalDeposit"
-).textContent =
+);
+
+if(modalDeposit){
+
+modalDeposit.textContent =
 property.security_deposit
 ? "KSh " +
 Number(
@@ -453,22 +555,40 @@ property.security_deposit
 ).toLocaleString()
 : "Not specified";
 
+}
 
+
+const modalAvailability =
 document.getElementById(
 "modalAvailability"
-).textContent =
+);
+
+if(modalAvailability){
+
+modalAvailability.textContent =
 property.availability ||
 "Available";
 
+}
 
+
+const modalDescription =
 document.getElementById(
 "modalDescription"
-).textContent =
+);
+
+if(modalDescription){
+
+modalDescription.textContent =
 property.description ||
 "No description provided.";
 
+}
 
-/* AMENITIES */
+
+/* ================================
+   AMENITIES
+================================ */
 
 let amenities =
 property.amenities;
@@ -495,14 +615,23 @@ amenities
 }
 
 
+const modalAmenities =
 document.getElementById(
 "modalAmenities"
-).textContent =
+);
+
+if(modalAmenities){
+
+modalAmenities.textContent =
 amenities ||
 "Not specified";
 
+}
 
-/* MODAL IMAGE */
+
+/* ================================
+   MODAL IMAGE
+================================ */
 
 const modalImage =
 document.getElementById(
@@ -514,6 +643,8 @@ getFirstImage(
 property
 );
 
+
+if(modalImage){
 
 if(imageUrl){
 
@@ -540,12 +671,21 @@ modalImage.innerHTML =
 
 }
 
+}
 
-/* BOOK BUTTON */
 
+/* ================================
+   BOOK BUTTON
+================================ */
+
+const modalBook =
 document.getElementById(
 "modalBook"
-).onclick =
+);
+
+if(modalBook){
+
+modalBook.onclick =
 function(){
 
 bookTour(
@@ -554,11 +694,24 @@ property.id
 
 };
 
+}
 
+
+/* ================================
+   OPEN MODAL
+================================ */
+
+const detailsModal =
 document.getElementById(
 "detailsModal"
-).style.display =
+);
+
+if(detailsModal){
+
+detailsModal.style.display =
 "block";
+
+}
 
 document.body.style.overflow =
 "hidden";
@@ -572,10 +725,17 @@ document.body.style.overflow =
 
 function closeDetails(){
 
+const detailsModal =
 document.getElementById(
 "detailsModal"
-).style.display =
+);
+
+if(detailsModal){
+
+detailsModal.style.display =
 "none";
+
+}
 
 document.body.style.overflow =
 "";
@@ -632,31 +792,49 @@ url,
 
 function filterProperties(){
 
-const search =
+const searchInput =
 document.getElementById(
 "searchInput"
-)
-.value
-.toLowerCase()
-.trim();
+);
+
+const locationFilter =
+document.getElementById(
+"locationFilter"
+);
+
+const typeFilter =
+document.getElementById(
+"typeFilter"
+);
+
+const rentFilter =
+document.getElementById(
+"rentFilter"
+);
+
+
+const search =
+searchInput
+? searchInput.value.toLowerCase().trim()
+: "";
 
 
 const location =
-document.getElementById(
-"locationFilter"
-).value;
+locationFilter
+? locationFilter.value
+: "";
 
 
 const type =
-document.getElementById(
-"typeFilter"
-).value;
+typeFilter
+? typeFilter.value
+: "";
 
 
 const maxRent =
-document.getElementById(
-"rentFilter"
-).value;
+rentFilter
+? rentFilter.value
+: "";
 
 
 const filtered =
@@ -719,11 +897,18 @@ filtered
 );
 
 
+const homes =
 document.getElementById(
 "homes"
-).scrollIntoView({
+);
+
+if(homes){
+
+homes.scrollIntoView({
 behavior:"smooth"
 });
+
+}
 
 }
 
@@ -732,11 +917,14 @@ behavior:"smooth"
    ENTER KEY SEARCH
 ================================ */
 
-document
-.getElementById(
+const searchInput =
+document.getElementById(
 "searchInput"
-)
-.addEventListener(
+);
+
+if(searchInput){
+
+searchInput.addEventListener(
 "keyup",
 function(event){
 
@@ -748,6 +936,8 @@ filterProperties();
 
 }
 );
+
+}
 
 
 /* ================================
@@ -763,7 +953,10 @@ document.getElementById(
 "detailsModal"
 );
 
-if(event.target === modal){
+if(
+modal &&
+event.target === modal
+){
 
 closeDetails();
 
