@@ -1,917 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Nyumbani Housing | Find Your Next Home</title>
-
-<meta name="description" content="Find rental homes, bedsitters, rooms, studios and apartments in Nairobi, Kiambu, Thika and Nakuru.">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f8fafc;
-  color:#334155;
-  line-height:1.6;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-button,input,select{
-  font:inherit;
-}
-
-.header{
-  background:white;
-  border-bottom:1px solid #e2e8f0;
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-
-.nav{
-  max-width:1200px;
-  margin:auto;
-  padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  color:#0f766e;
-  font-size:22px;
-  font-weight:800;
-}
-
-.logo-icon{
-  width:43px;
-  height:43px;
-  background:#0f766e;
-  color:white;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:23px;
-}
-
-.nav-links{
-  display:flex;
-  gap:22px;
-  align-items:center;
-}
-
-.nav-links a{
-  font-weight:600;
-}
-
-.admin{
-  background:#0f172a;
-  color:white;
-  padding:9px 15px;
-  border-radius:9px;
-}
-
-.hero{
-  background:linear-gradient(135deg,#0f766e,#115e59);
-  color:white;
-  padding:65px 20px 75px;
-  text-align:center;
-}
-
-.hero h1{
-  font-size:clamp(38px,6vw,60px);
-  line-height:1.08;
-  margin-bottom:20px;
-}
-
-.hero p{
-  max-width:720px;
-  margin:0 auto 30px;
-  font-size:18px;
-}
-
-.search-box{
-  max-width:1100px;
-  margin:auto;
-  background:white;
-  padding:14px;
-  border-radius:18px;
-  display:grid;
-  grid-template-columns:1.5fr 1fr 1fr 1fr auto;
-  gap:10px;
-  box-shadow:0 20px 45px rgba(0,0,0,.18);
-}
-
-.search-box input,
-.search-box select{
-  width:100%;
-  padding:14px;
-  border:1px solid #e2e8f0;
-  border-radius:10px;
-  color:#334155;
-  background:white;
-  outline:none;
-}
-
-.search-btn{
-  border:0;
-  background:#0f766e;
-  color:white;
-  padding:14px 22px;
-  border-radius:10px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:50px 20px;
-}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:25px;
-  gap:15px;
-}
-
-.section-head h2{
-  font-size:30px;
-  color:#0f172a;
-}
-
-.section-head p{
-  color:#64748b;
-}
-
-.live-badge{
-  background:#ecfdf5;
-  color:#15803d;
-  border:1px solid #bbf7d0;
-  border-radius:30px;
-  padding:9px 15px;
-  font-weight:800;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:25px;
-}
-
-.card{
-  background:white;
-  border:1px solid #e2e8f0;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(15,23,42,.08);
-}
-
-.photo{
-  height:230px;
-  background:#e2e8f0;
-  position:relative;
-  overflow:hidden;
-}
-
-.photo img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.placeholder{
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:60px;
-}
-
-.live{
-  position:absolute;
-  top:14px;
-  left:14px;
-  background:#dc2626;
-  color:white;
-  padding:7px 11px;
-  border-radius:8px;
-  font-size:12px;
-  font-weight:800;
-}
-
-.type{
-  position:absolute;
-  top:14px;
-  right:14px;
-  background:white;
-  color:#0f766e;
-  padding:7px 11px;
-  border-radius:8px;
-  font-size:12px;
-  font-weight:800;
-}
-
-.card-body{
-  padding:20px;
-}
-
-.card h3{
-  color:#0f172a;
-  font-size:21px;
-  margin-bottom:7px;
-}
-
-.location{
-  color:#64748b;
-  font-size:14px;
-  margin-bottom:12px;
-}
-
-.price{
-  color:#0f766e;
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:10px;
-}
-
-.preview{
-  color:#64748b;
-  font-size:14px;
-  margin-bottom:17px;
-  display:-webkit-box;
-  -webkit-line-clamp:3;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-
-.card-buttons{
-  display:flex;
-  gap:9px;
-  border-top:1px solid #e2e8f0;
-  padding-top:15px;
-}
-
-.details-btn,
-.book-btn{
-  flex:1;
-  border:0;
-  padding:11px 8px;
-  border-radius:9px;
-  color:white;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.details-btn{
-  background:#0f766e;
-}
-
-.book-btn{
-  background:#16a34a;
-}
-
-.loading{
-  text-align:center;
-  padding:60px;
-  color:#64748b;
-}
-
-.empty{
-  text-align:center;
-  padding:60px 20px;
-  background:white;
-  border-radius:18px;
-}
-
-.how{
-  background:white;
-}
-
-.steps{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:22px;
-}
-
-.step{
-  padding:28px;
-  background:#f8fafc;
-  border:1px solid #e2e8f0;
-  border-radius:17px;
-}
-
-.number{
-  width:44px;
-  height:44px;
-  border-radius:11px;
-  background:#0f766e;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:900;
-  margin-bottom:15px;
-}
-
-.step h3{
-  color:#0f172a;
-  margin-bottom:7px;
-}
-
-.contact{
-  background:#0f172a;
-  color:white;
-  text-align:center;
-  padding:60px 20px;
-}
-
-.contact h2{
-  font-size:32px;
-  margin-bottom:10px;
-}
-
-.contact p{
-  color:#cbd5e1;
-  margin-bottom:20px;
-}
-
-.contact a{
-  display:inline-block;
-  padding:13px 20px;
-  border-radius:10px;
-  font-weight:800;
-  margin:5px;
-}
-
-.phone{
-  background:white;
-  color:#0f172a;
-}
-
-.whatsapp{
-  background:#16a34a;
-  color:white;
-}
-
-footer{
-  background:#020617;
-  color:#94a3b8;
-  text-align:center;
-  padding:25px;
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  z-index:1000;
-  overflow-y:auto;
-  padding:25px 15px;
-}
-
-.modal-box{
-  background:white;
-  max-width:700px;
-  margin:20px auto;
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.modal-image{
-  width:100%;
-  height:300px;
-  background:#e2e8f0;
-}
-
-.modal-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.modal-content{
-  padding:25px;
-}
-
-.close{
-  float:right;
-  border:0;
-  background:#f1f5f9;
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  font-size:22px;
-  cursor:pointer;
-}
-
-.modal-content h2{
-  color:#0f172a;
-  font-size:27px;
-  margin-bottom:8px;
-  padding-right:45px;
-}
-
-.modal-location{
-  color:#64748b;
-  margin-bottom:18px;
-}
-
-.modal-price{
-  color:#0f766e;
-  font-size:25px;
-  font-weight:900;
-  margin-bottom:20px;
-}
-
-.details-list{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:20px;
-}
-
-.detail{
-  background:#f8fafc;
-  border:1px solid #e2e8f0;
-  padding:13px;
-  border-radius:10px;
-}
-
-.detail strong{
-  display:block;
-  color:#0f172a;
-}
-
-.description-full{
-  color:#475569;
-  line-height:1.8;
-  margin-bottom:20px;
-}
-
-.description-full strong{
-  color:#0f172a;
-}
-
-.amenities{
-  margin-bottom:20px;
-}
-
-.amenities h3{
-  color:#0f172a;
-  margin-bottom:8px;
-}
-
-.book-large{
-  width:100%;
-  border:0;
-  padding:15px;
-  background:#16a34a;
-  color:white;
-  border-radius:11px;
-  font-weight:900;
-  font-size:17px;
-  cursor:pointer;
-}
-
-.viewing-fee{
-  text-align:center;
-  margin-top:10px;
-  color:#64748b;
-  font-size:14px;
-}
-
-@media(max-width:900px){
-
-.search-box{
-  grid-template-columns:1fr 1fr;
-}
-
-.search-btn{
-  grid-column:span 2;
-}
-
-.grid{
-  grid-template-columns:repeat(2,1fr);
-}
-
-}
-
-@media(max-width:650px){
-
-.nav-links{
-  display:none;
-}
-
-.hero{
-  padding:50px 15px 60px;
-}
-
-.hero h1{
-  font-size:40px;
-}
-
-.search-box{
-  grid-template-columns:1fr;
-}
-
-.search-btn{
-  grid-column:auto;
-}
-
-.container{
-  padding:40px 15px;
-}
-
-.section-head{
-  align-items:flex-start;
-  flex-direction:column;
-}
-
-.grid{
-  grid-template-columns:1fr;
-}
-
-.steps{
-  grid-template-columns:1fr;
-}
-
-.details-list{
-  grid-template-columns:1fr;
-}
-
-}
-</style>
-</head>
-
-<body>
-
-<header class="header">
-
-<nav class="nav">
-
-<a href="#" class="logo">
-<span class="logo-icon">🏠</span>
-<span>Nyumbani Housing</span>
-</a>
-
-<div class="nav-links">
-<a href="#homes">Homes</a>
-<a href="#how">How It Works</a>
-<a href="#contact">Contact</a>
-<a href="admin.html" class="admin">Admin</a>
-</div>
-
-</nav>
-
-</header>
-
-<section class="hero">
-
-<h1>Find a Place to Call Home</h1>
-
-<p>
-Find an affordable place to call home. Explore quality rental houses, apartments, studios, bedsitters and rooms at prices that fit your budget.
-</p>
-
-<div class="search-box">
-
-<input
-id="searchInput"
-type="text"
-placeholder="Search area, estate or property..."
->
-
-<select id="locationFilter">
-
-<option value="">All Locations</option>
-<option>Nairobi</option>
-<option>Kiambu</option>
-<option>Thika</option>
-<option>Nakuru</option>
-
-</select>
-
-<select id="typeFilter">
-
-<option value="">All House Types</option>
-<option>Bedsitter</option>
-<option>Single Room</option>
-<option>Studio</option>
-<option>1 Bedroom</option>
-<option>2 Bedroom</option>
-<option>3 Bedroom</option>
-<option>Own Compound</option>
-
-</select>
-
-<select id="rentFilter">
-
-<option value="">Any Rent</option>
-<option value="10000">Up to KSh 10,000</option>
-<option value="15000">Up to KSh 15,000</option>
-<option value="20000">Up to KSh 20,000</option>
-<option value="30000">Up to KSh 30,000</option>
-<option value="50000">Up to KSh 50,000</option>
-<option value="100000">Up to KSh 100,000</option>
-
-</select>
-
-<button class="search-btn" onclick="filterProperties()">
-Search
-</button>
-
-</div>
-
-</section>
-
-<section id="homes" class="container">
-
-<div class="section-head">
-
-<div>
-
-<h2>Live Property Listings</h2>
-
-<p id="listingCount">
-Loading available homes...
-</p>
-
-</div>
-
-<div class="live-badge">
-🟢 LIVE LISTINGS
-</div>
-
-</div>
-
-<div id="loading" class="loading">
-Loading available homes...
-</div>
-
-<div id="propertyGrid" class="grid"></div>
-
-<div id="emptyState" class="empty" style="display:none;">
-
-<h3>No properties found</h3>
-
-<p>
-Try changing your search or filters.
-</p>
-
-</div>
-
-</section>
-
-<section id="how" class="how">
-
-<div class="container">
-
-<div class="section-head">
-
-<div>
-
-<h2>How It Works</h2>
-
-<p>
-Finding your next home is simple.
-</p>
-
-</div>
-
-</div>
-
-<div class="steps">
-
-<div class="step">
-
-<div class="number">1</div>
-
-<h3>Find a Property</h3>
-
-<p>
-Search available homes by location,
-house type and rent.
-</p>
-
-</div>
-
-<div class="step">
-
-<div class="number">2</div>
-
-<h3>View Details</h3>
-
-<p>
-Open the property details to see
-complete information.
-</p>
-
-</div>
-
-<div class="step">
-
-<div class="number">3</div>
-
-<h3>Book a Tour</h3>
-
-<p>
-Book with our House Tour Agent.
-Viewing fee is KSh 1,500.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<section id="contact" class="contact">
-
-<h2>
-Need Help Finding a Home?
-</h2>
-
-<p>
-Contact Nyumbani Housing and our House Tour Agent.
-</p>
-
-<a
-class="phone"
-href="tel:0709221533"
->
-📞 0709 221 533
-</a>
-
-<a
-class="whatsapp"
-href="https://wa.me/254738264143"
-target="_blank"
->
-💬 WhatsApp 0738 264 143
-</a>
-
-</section>
-
-<footer>
-
-© 2026 Nyumbani Housing. All Rights Reserved.
-
-</footer>
-
-<div id="detailsModal" class="modal">
-
-<div class="modal-box">
-
-<div class="modal-image" id="modalImage"></div>
-
-<div class="modal-content">
-
-<button
-class="close"
-onclick="closeDetails()"
->
-×
-</button>
-
-<h2 id="modalTitle"></h2>
-
-<div
-class="modal-location"
-id="modalLocation"
-></div>
-
-<div
-class="modal-price"
-id="modalPrice"
-></div>
-
-<div class="details-list">
-
-<div class="detail">
-
-<strong>House Type</strong>
-
-<span id="modalType">
-Not specified
-</span>
-
-</div>
-
-<div class="detail">
-
-<strong>Area / Landmark</strong>
-
-<span id="modalArea">
-Not specified
-</span>
-
-</div>
-
-<div class="detail">
-
-<strong>Bedrooms</strong>
-
-<span id="modalBedrooms">
-Not specified
-</span>
-
-</div>
-
-<div class="detail">
-
-<strong>Bathrooms</strong>
-
-<span id="modalBathrooms">
-Not specified
-</span>
-
-</div>
-
-<div class="detail">
-
-<strong>Deposit</strong>
-
-<span id="modalDeposit">
-Not specified
-</span>
-
-</div>
-
-<div class="detail">
-
-<strong>Availability</strong>
-
-<span id="modalAvailability">
-Available
-</span>
-
-</div>
-
-</div>
-
-<div class="description-full">
-
-<strong>
-Property Description
-</strong>
-
-<p id="modalDescription"></p>
-
-</div>
-
-<div class="amenities">
-
-<h3>Amenities</h3>
-
-<p id="modalAmenities">
-Not specified
-</p>
-
-</div>
-
-<button
-class="book-large"
-id="modalBook"
->
-📱 Book House Tour Agent
-</button>
-
-<div class="viewing-fee">
-
-Viewing fee:
-<strong>KSh 1,500</strong>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 <script>
 
 const SUPABASE_URL =
@@ -943,6 +29,82 @@ return String(value)
 
 }
 
+
+/* ================================
+   GET PROPERTY IMAGE
+================================ */
+
+function getFirstImage(property){
+
+let urls = property.image_urls;
+
+/* Supabase JSONB can sometimes arrive
+   as an array and sometimes as a string */
+
+if(typeof urls === "string"){
+
+try{
+
+urls = JSON.parse(urls);
+
+}catch(error){
+
+console.error(
+"Could not parse image_urls:",
+urls
+);
+
+return "";
+
+}
+
+}
+
+if(Array.isArray(urls) && urls.length > 0){
+
+return String(urls[0]);
+
+}
+
+return "";
+
+}
+
+
+/* ================================
+   IMAGE HTML
+================================ */
+
+function createImageHTML(property){
+
+const imageUrl =
+getFirstImage(property);
+
+if(!imageUrl){
+
+return '<div class="placeholder">🏠</div>';
+
+}
+
+return `
+<img
+src="${escapeHtml(imageUrl)}"
+alt="${escapeHtml(property.title || "Property")}"
+loading="lazy"
+onerror="
+this.onerror=null;
+this.outerHTML='<div class=&quot;placeholder&quot;>🏠</div>';
+"
+>
+`;
+
+}
+
+
+/* ================================
+   LOAD PROPERTIES
+================================ */
+
 async function loadProperties(){
 
 const loading =
@@ -958,94 +120,137 @@ await supabaseClient
 .order("created_at",{ascending:false});
 
 if(error){
+
 throw error;
+
 }
 
-allProperties = data || [];
+console.log(
+"Properties loaded:",
+data
+);
 
-loading.style.display="none";
+allProperties =
+data || [];
 
-renderProperties(allProperties);
+loading.style.display =
+"none";
+
+renderProperties(
+allProperties
+);
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Property loading error:",
+error
+);
 
-loading.style.display="none";
+loading.style.display =
+"none";
 
-document.getElementById("propertyGrid").innerHTML="";
+document.getElementById(
+"propertyGrid"
+).innerHTML = "";
 
-document.getElementById("emptyState").style.display="block";
+document.getElementById(
+"emptyState"
+).style.display =
+"block";
 
-document.getElementById("listingCount").textContent=
+document.getElementById(
+"listingCount"
+).textContent =
 "Unable to load listings";
 
 }
 
 }
 
+
+/* ================================
+   RENDER PROPERTIES
+================================ */
+
 function renderProperties(properties){
 
 const grid =
-document.getElementById("propertyGrid");
+document.getElementById(
+"propertyGrid"
+);
 
 const empty =
-document.getElementById("emptyState");
+document.getElementById(
+"emptyState"
+);
 
 const count =
-document.getElementById("listingCount");
+document.getElementById(
+"listingCount"
+);
 
-grid.innerHTML="";
+grid.innerHTML = "";
 
 count.textContent =
 properties.length +
-(properties.length === 1
+(
+properties.length === 1
 ? " property available"
-: " properties available");
+: " properties available"
+);
 
 if(properties.length === 0){
 
-empty.style.display="block";
+empty.style.display =
+"block";
 
 return;
 
 }
 
-empty.style.display="none";
+empty.style.display =
+"none";
 
-properties.forEach(property => {
+
+properties.forEach(
+property => {
 
 const card =
-document.createElement("div");
+document.createElement(
+"div"
+);
 
-card.className="card";
+card.className =
+"card";
 
-let imageHTML =
-'<div class="placeholder">🏠</div>';
 
-if(Array.isArray(property.image_urls) && property.image_urls.length > 0){
+/* GET IMAGE */
 
-imageHTML =
-`<img
-src="${escapeHtml(property.image_urls[0])}"
-alt="${escapeHtml(property.title)}"
-loading="lazy"
-onerror="this.style.display='none';"
->`;
+const imageHTML =
+createImageHTML(
+property
+);
 
-}
 
 const rent =
-Number(property.price || 0).toLocaleString();
+Number(
+property.price || 0
+).toLocaleString();
+
 
 const description =
 property.description ||
 "No description provided.";
 
+
 const shortDescription =
 description.length > 150
 ? description.substring(0,150) + "..."
 : description;
+
+
+/* CARD */
 
 card.innerHTML = `
 
@@ -1058,40 +263,65 @@ ${imageHTML}
 </div>
 
 <div class="type">
-${escapeHtml(property.property_type || "Property")}
+${escapeHtml(
+property.property_type ||
+"Property"
+)}
 </div>
 
 </div>
+
 
 <div class="card-body">
 
 <h3>
-${escapeHtml(property.title || "Property")}
+${escapeHtml(
+property.title ||
+"Property"
+)}
 </h3>
+
 
 <div class="location">
 
 📍
-${escapeHtml(property.area || "")}
+${escapeHtml(
+property.area || ""
+)}
 
-${property.area && property.location ? ", " : ""}
+${
+property.area &&
+property.location
+? ", "
+: ""
+}
 
-${escapeHtml(property.location || "")}
+${escapeHtml(
+property.location || ""
+)}
 
 </div>
+
 
 <div class="price">
 
 KSh ${rent} /
-${escapeHtml(property.price_period || "month")}
+${escapeHtml(
+property.price_period ||
+"month"
+)}
 
 </div>
+
 
 <div class="preview">
 
-${escapeHtml(shortDescription)}
+${escapeHtml(
+shortDescription
+)}
 
 </div>
+
 
 <div class="card-buttons">
 
@@ -1101,6 +331,7 @@ onclick="showDetails(${property.id})"
 >
 View Details
 </button>
+
 
 <button
 class="book-btn"
@@ -1115,71 +346,133 @@ Book Tour
 
 `;
 
-grid.appendChild(card);
+
+grid.appendChild(
+card
+);
 
 });
 
 }
 
+
+/* ================================
+   PROPERTY DETAILS
+================================ */
+
 function showDetails(id){
 
 const property =
 allProperties.find(
-p => Number(p.id) === Number(id)
+p =>
+Number(p.id) ===
+Number(id)
 );
 
 if(!property){
+
 return;
+
 }
 
-document.getElementById("modalTitle").textContent =
-property.title || "Property";
 
-document.getElementById("modalLocation").textContent =
+document.getElementById(
+"modalTitle"
+).textContent =
+property.title ||
+"Property";
+
+
+document.getElementById(
+"modalLocation"
+).textContent =
 "📍 " +
 (property.area || "") +
-(property.area && property.location ? ", " : "") +
+(
+property.area &&
+property.location
+? ", "
+: ""
+) +
 (property.location || "");
 
-document.getElementById("modalPrice").textContent =
+
+document.getElementById(
+"modalPrice"
+).textContent =
 "KSh " +
-Number(property.price || 0).toLocaleString() +
+Number(
+property.price || 0
+).toLocaleString() +
 " / " +
-(property.price_period || "month");
+(
+property.price_period ||
+"month"
+);
 
-document.getElementById("modalType").textContent =
-property.property_type || "Not specified";
 
-document.getElementById("modalArea").textContent =
-property.area || "Not specified";
+document.getElementById(
+"modalType"
+).textContent =
+property.property_type ||
+"Not specified";
 
-document.getElementById("modalBedrooms").textContent =
+
+document.getElementById(
+"modalArea"
+).textContent =
+property.area ||
+"Not specified";
+
+
+document.getElementById(
+"modalBedrooms"
+).textContent =
 property.bedrooms !== null &&
 property.bedrooms !== undefined
 ? property.bedrooms
 : "Not specified";
 
-document.getElementById("modalBathrooms").textContent =
+
+document.getElementById(
+"modalBathrooms"
+).textContent =
 property.bathrooms !== null &&
 property.bathrooms !== undefined
 ? property.bathrooms
 : "Not specified";
 
-document.getElementById("modalDeposit").textContent =
+
+document.getElementById(
+"modalDeposit"
+).textContent =
 property.security_deposit
 ? "KSh " +
-Number(property.security_deposit).toLocaleString()
+Number(
+property.security_deposit
+).toLocaleString()
 : "Not specified";
 
-document.getElementById("modalAvailability").textContent =
-property.availability || "Available";
 
-document.getElementById("modalDescription").textContent =
+document.getElementById(
+"modalAvailability"
+).textContent =
+property.availability ||
+"Available";
+
+
+document.getElementById(
+"modalDescription"
+).textContent =
 property.description ||
 "No description provided.";
 
+
+/* AMENITIES */
+
 let amenities =
 property.amenities;
+
 
 if(Array.isArray(amenities)){
 
@@ -1188,27 +481,57 @@ amenities.join(", ");
 
 }
 
-if(typeof amenities === "object" &&
-amenities !== null){
+
+if(
+typeof amenities === "object" &&
+amenities !== null
+){
 
 amenities =
-Object.values(amenities).join(", ");
+Object.values(
+amenities
+).join(", ");
 
 }
 
-document.getElementById("modalAmenities").textContent =
-amenities || "Not specified";
+
+document.getElementById(
+"modalAmenities"
+).textContent =
+amenities ||
+"Not specified";
+
+
+/* MODAL IMAGE */
 
 const modalImage =
-document.getElementById("modalImage");
+document.getElementById(
+"modalImage"
+);
 
-if(Array.isArray(property.image_urls) && property.image_urls.length > 0){
+const imageUrl =
+getFirstImage(
+property
+);
 
-modalImage.innerHTML =
-`<img
-src="${escapeHtml(property.image_urls[0])}"
-alt="${escapeHtml(property.title || "Property")}"
->`;
+
+if(imageUrl){
+
+modalImage.innerHTML = `
+
+<img
+src="${escapeHtml(imageUrl)}"
+alt="${escapeHtml(
+property.title ||
+"Property"
+)}"
+onerror="
+this.onerror=null;
+this.outerHTML='<div class=&quot;placeholder&quot;>🏠</div>';
+"
+>
+
+`;
 
 }else{
 
@@ -1217,14 +540,24 @@ modalImage.innerHTML =
 
 }
 
-document.getElementById("modalBook").onclick =
+
+/* BOOK BUTTON */
+
+document.getElementById(
+"modalBook"
+).onclick =
 function(){
 
-bookTour(property.id);
+bookTour(
+property.id
+);
 
 };
 
-document.getElementById("detailsModal").style.display =
+
+document.getElementById(
+"detailsModal"
+).style.display =
 "block";
 
 document.body.style.overflow =
@@ -1232,9 +565,16 @@ document.body.style.overflow =
 
 }
 
+
+/* ================================
+   CLOSE DETAILS
+================================ */
+
 function closeDetails(){
 
-document.getElementById("detailsModal").style.display =
+document.getElementById(
+"detailsModal"
+).style.display =
 "none";
 
 document.body.style.overflow =
@@ -1242,52 +582,87 @@ document.body.style.overflow =
 
 }
 
+
+/* ================================
+   BOOK TOUR
+================================ */
+
 function bookTour(id){
 
 const property =
 allProperties.find(
-p => Number(p.id) === Number(id)
+p =>
+Number(p.id) ===
+Number(id)
 );
 
 if(!property){
+
 return;
+
 }
+
 
 const message =
 "Hello Nyumbani Housing, I would like to book a House Tour Agent for: " +
-(property.title || "Property") +
+(
+property.title ||
+"Property"
+) +
 ". I understand the viewing fee is KSh 1,500.";
+
 
 const url =
 "https://wa.me/254738264143?text=" +
-encodeURIComponent(message);
+encodeURIComponent(
+message
+);
 
-window.open(url,"_blank");
+window.open(
+url,
+"_blank"
+);
 
 }
+
+
+/* ================================
+   FILTER PROPERTIES
+================================ */
 
 function filterProperties(){
 
 const search =
-document.getElementById("searchInput")
+document.getElementById(
+"searchInput"
+)
 .value
 .toLowerCase()
 .trim();
 
+
 const location =
-document.getElementById("locationFilter")
-.value;
+document.getElementById(
+"locationFilter"
+).value;
+
 
 const type =
-document.getElementById("typeFilter")
-.value;
+document.getElementById(
+"typeFilter"
+).value;
+
 
 const maxRent =
-document.getElementById("rentFilter")
-.value;
+document.getElementById(
+"rentFilter"
+).value;
+
 
 const filtered =
-allProperties.filter(property => {
+allProperties.filter(
+property => {
+
 
 const searchable =
 (
@@ -1301,22 +676,33 @@ const searchable =
 )
 .toLowerCase();
 
+
 const matchesSearch =
 !search ||
-searchable.includes(search);
+searchable.includes(
+search
+);
+
 
 const matchesLocation =
 !location ||
-property.location === location;
+property.location ===
+location;
+
 
 const matchesType =
 !type ||
-property.property_type === type;
+property.property_type ===
+type;
+
 
 const matchesRent =
 !maxRent ||
-Number(property.price || 0) <=
+Number(
+property.price || 0
+) <=
 Number(maxRent);
+
 
 return (
 matchesSearch &&
@@ -1327,17 +713,29 @@ matchesRent
 
 });
 
-renderProperties(filtered);
 
-document.getElementById("homes")
-.scrollIntoView({
+renderProperties(
+filtered
+);
+
+
+document.getElementById(
+"homes"
+).scrollIntoView({
 behavior:"smooth"
 });
 
 }
 
+
+/* ================================
+   ENTER KEY SEARCH
+================================ */
+
 document
-.getElementById("searchInput")
+.getElementById(
+"searchInput"
+)
 .addEventListener(
 "keyup",
 function(event){
@@ -1351,12 +749,19 @@ filterProperties();
 }
 );
 
+
+/* ================================
+   CLOSE MODAL
+================================ */
+
 window.addEventListener(
 "click",
 function(event){
 
 const modal =
-document.getElementById("detailsModal");
+document.getElementById(
+"detailsModal"
+);
 
 if(event.target === modal){
 
@@ -1367,9 +772,11 @@ closeDetails();
 }
 );
 
+
+/* ================================
+   START WEBSITE
+================================ */
+
 loadProperties();
 
 </script>
-
-</body>
-</html>
