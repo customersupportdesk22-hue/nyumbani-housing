@@ -313,7 +313,7 @@ return null;
    CREATE SIGNED IMAGE URLS
 -------------------------------- */
 
-async function getImageUrls(property){
+function getImageUrls(property){
 
 let images = property?.image_urls;
 
@@ -324,15 +324,10 @@ return [];
 if(typeof images === "string"){
 
 try{
-
 images = JSON.parse(images);
-
 }catch(error){
-
-console.error("Could not parse image_urls:",error);
-
+console.error("Could not parse image_urls:", error);
 return [];
-
 }
 
 }
@@ -341,12 +336,13 @@ if(!Array.isArray(images)){
 return [];
 }
 
-const validImages =
-images.filter(
+return images.filter(
 url =>
 typeof url === "string" &&
 url.trim() !== ""
 );
+
+}
 
 const signedImages =
 await Promise.all(
