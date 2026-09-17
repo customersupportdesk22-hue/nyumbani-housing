@@ -1,9 +1,7 @@
 <!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nyumbani Housing | Find Your Next Home</title>
-<meta name="description" content="Find rental homes, bedsitters, rooms, studios and apartments in Nairobi, Kiambu, Thika and Nakuru."><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nyumbani Housing | Find Your Next Home</title><meta name="description" content="Find rental homes, bedsitters, rooms, studios and apartments in Nairobi, Kiambu, Thika and Nakuru."><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,Helvetica,sans-serif;background:#f8fafc;color:#334155;line-height:1.6}
 a{text-decoration:none;color:inherit}
@@ -109,174 +107,17 @@ footer{background:#020617;color:#94a3b8;text-align:center;padding:25px}
 .steps{grid-template-columns:1fr}
 .details-list{grid-template-columns:1fr}
 }
-</style>/* REQUEST HOUSE VIEWING */
-.request-box{
-  margin-top:35px;
-  background:white;
-  border:1px solid #e2e8f0;
-  border-radius:18px;
-  padding:28px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(15,23,42,.06);
-}
-
-.request-box h2{
-  color:#0f172a;
-  margin-bottom:8px;
-}
-
-.request-box p{
-  color:#64748b;
-  margin-bottom:20px;
-}
-
-.request-btn{
-  border:0;
-  background:#0f766e;
-  color:white;
-  padding:14px 22px;
-  border-radius:10px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.request-form{
-  display:none;
-  margin-top:20px;
-  text-align:left;
-}
-
-.request-form input,
-.request-form select{
-  width:100%;
-  padding:13px;
-  margin-bottom:10px;
-  border:1px solid #e2e8f0;
-  border-radius:9px;
-  outline:none;
-}
-
-.request-actions{
-  display:flex;
-  gap:10px;
-  margin-top:8px;
-}
-
-.request-actions a{
-  flex:1;
-  text-align:center;
-  padding:13px;
-  border-radius:10px;
-  font-weight:800;
-}
-
-.request-call{
-  background:#0f172a;
-  color:white;
-}
-
-.request-whatsapp{
-  background:#16a34a;
-  color:white;
-}
-
-.request-note{
-  font-size:13px;
-  color:#64748b;
-  margin-top:12px;
-}</head><body><header class="header">
-<nav class="nav">
-<a href="#" class="logo">
+</style></head><body><header class="header">
+<nav class="nav"><a href="#" class="logo">
 <span class="logo-icon">🏠</span>
 <span>Nyumbani Housing</span>
 </a><div class="nav-links">
-<a href="#homes">Homes<section class="container">
-  <div class="request-box">
-
-    <h2>🏠 Can't Find the House You Want?</h2>
-
-    <p>
-      Tell us your preferred locations, house type and budget.
-      We can help arrange a viewing of up to 5 suitable houses,
-      even if they are in different areas.
-    </p>
-
-    <button class="request-btn" onclick="toggleRequestForm()">
-      Request House Viewing
-    </button>
-
-    <div id="requestForm" class="request-form">
-
-      <input
-        id="requestLocation"
-        type="text"
-        placeholder="Preferred location(s) e.g. Ngara, Kasarani, Roysambu"
-      >
-
-      <select id="requestType">
-        <option value="">Select house type</option>
-        <option>Bedsitter</option>
-        <option>Single Room</option>
-        <option>Studio</option>
-        <option>1 Bedroom</option>
-        <option>2 Bedroom</option>
-        <option>3 Bedroom</option>
-        <option>Own Compound</option>
-      </select>
-
-      <input
-        id="requestBudget"
-        type="number"
-        placeholder="Maximum budget e.g. 20000"
-      >
-
-      <input
-        id="requestDate"
-        type="date"
-      >
-
-      <input
-        id="requestTime"
-        type="time"
-      >
-
-      <div class="request-actions">
-
-        <a
-          href="tel:0709221533"
-          class="request-call"
-        >
-          📞 Call
-        </a>
-
-        <a
-          href="#"
-          id="requestWhatsApp"
-          class="request-whatsapp"
-          target="_blank"
-        >
-          💬 WhatsApp
-        </a>
-
-      </div>
-
-      <p class="request-note">
-        Viewing appointment fee: <strong>KSh 1,500</strong>.
-        We will help arrange up to 5 suitable houses based on
-        your requirements and availability.
-      </p>
-
-    </div>
-
-  </div>
-</section></a>
+<a href="#homes">Homes</a>
 <a href="#how">How It Works</a>
 <a href="#contact">Contact</a>
 <a href="admin.html" class="admin">Admin</a>
-</div>
-</nav>
-</header><section class="hero">
-<h1>Find a Place to Call Home</h1><p>
+</div></nav>
+</header><section class="hero"><h1>Find a Place to Call Home</h1><p>
 Find an affordable place to call home. Explore quality rental houses, apartments, studios, bedsitters and rooms at prices that fit your budget.
 </p><div class="search-box"><input id="searchInput" type="text" placeholder="Search area, estate or property..."><select id="locationFilter">
 <option value="">All Locations</option>
@@ -304,10 +145,12 @@ Find an affordable place to call home. Explore quality rental houses, apartments
 </select><button class="search-btn" onclick="filterProperties()">Search</button>
 
 </div>
-</section><section id="homes" class="container"><div class="section-head"><div>
+</section><section id="homes" class="container"><div class="section-head">
+<div>
 <h2>Live Property Listings</h2>
 <p id="listingCount">Loading available homes...</p>
-</div><div class="live-badge">🟢 LIVE LISTINGS</div></div><div id="loading" class="loading">
+</div><div class="live-badge">🟢 LIVE LISTINGS</div>
+</div><div id="loading" class="loading">
 Loading available homes...
 </div><div id="propertyGrid" class="grid"></div><div id="emptyState" class="empty" style="display:none;">
 <h3>No properties found</h3>
@@ -376,6 +219,10 @@ const SUPABASE_KEY =
 let supabaseClient = null;
 let allProperties = [];
 
+/* ------------------------------
+   SUPABASE CONNECTION
+--------------------------------*/
+
 if(window.supabase){
 
 supabaseClient =
@@ -389,6 +236,10 @@ SUPABASE_KEY
 console.error("Supabase library failed to load.");
 
 }
+
+/* ------------------------------
+   ESCAPE HTML
+--------------------------------*/
 
 function escapeHtml(value){
 
@@ -405,75 +256,20 @@ return String(value)
 
 }
 
-/* --------------------------------
-   GET STORAGE PATH
--------------------------------- */
+/* ------------------------------
+   GET IMAGE URLS
+--------------------------------*/
 
-function getStoragePath(url){
-
-if(!url || typeof url !== "string"){
-return null;
-}
-
-try{
-
-/*
-   Existing database URLs look like:
-
-   /storage/v1/object/public/property-images/properties/file.jpg
-
-   or
-
-   /storage/v1/object/sign/property-images/properties/file.jpg
-*/
-
-const publicMarker =
-"/storage/v1/object/public/property-images/";
-
-const signMarker =
-"/storage/v1/object/sign/property-images/";
-
-if(url.includes(publicMarker)){
-
-return url.split(publicMarker)[1].split("?")[0];
-
-}
-
-if(url.includes(signMarker)){
-
-return url.split(signMarker)[1].split("?")[0];
-
-}
-
-/* If database ever contains just the storage path */
-
-if(url.startsWith("properties/")){
-return url.split("?")[0];
-}
-
-return null;
-
-}catch(error){
-
-console.error("Storage path error:",error);
-
-return null;
-
-}
-
-}
-
-/* --------------------------------
-   CREATE SIGNED IMAGE URLS
--------------------------------- */
-
-async function getImageUrls(property){
+function getImageUrls(property){
 
 let images = property?.image_urls;
 
 if(!images){
 return [];
 }
+
+/* JSONB normally arrives as an array.
+   This also supports a JSON string. */
 
 if(typeof images === "string"){
 
@@ -495,73 +291,15 @@ if(!Array.isArray(images)){
 return [];
 }
 
-const validImages =
-images.filter(
-url =>
-typeof url === "string" &&
-url.trim() !== ""
-);
-
-const signedImages =
-await Promise.all(
-
-validImages.map(
-async url => {
-
-const path =
-getStoragePath(url);
-
-if(!path){
-return null;
-}
-
-try{
-
-const {data,error} =
-await supabaseClient.storage
-.from("property-images")
-.createSignedUrl(
-path,
-3600
-);
-
-if(error){
-
-console.error(
-"Could not create signed image URL:",
-error
-);
-
-return null;
-}
-
-return data?.signedUrl || null;
-
-}catch(error){
-
-console.error(
-"Signed image error:",
-error
-);
-
-return null;
-
-}
-
-}
-)
-
-);
-
-return signedImages.filter(
-url => typeof url === "string" && url !== ""
+return images.filter(
+url => typeof url === "string" && url.trim() !== ""
 );
 
 }
 
-/* --------------------------------
+/* ------------------------------
    LOAD PROPERTIES
--------------------------------- */
+--------------------------------*/
 
 async function loadProperties(){
 
@@ -596,7 +334,7 @@ allProperties = data || [];
 
 loading.style.display="none";
 
-await renderProperties(allProperties);
+renderProperties(allProperties);
 
 }catch(error){
 
@@ -615,11 +353,11 @@ document.getElementById("listingCount").textContent =
 
 }
 
-/* --------------------------------
+/* ------------------------------
    RENDER PROPERTIES
--------------------------------- */
+--------------------------------*/
 
-async function renderProperties(properties){
+function renderProperties(properties){
 
 const grid =
 document.getElementById("propertyGrid");
@@ -648,7 +386,7 @@ return;
 
 empty.style.display="none";
 
-for(const property of properties){
+properties.forEach(property => {
 
 const card =
 document.createElement("div");
@@ -656,7 +394,7 @@ document.createElement("div");
 card.className="card";
 
 const imageUrls =
-await getImageUrls(property);
+getImageUrls(property);
 
 let imageHTML =
 '<div class="placeholder">🏠</div>';
@@ -755,15 +493,15 @@ Book Tour
 
 grid.appendChild(card);
 
-}
+});
 
 }
 
-/* --------------------------------
+/* ------------------------------
    SHOW PROPERTY DETAILS
--------------------------------- */
+--------------------------------*/
 
-async function showDetails(id){
+function showDetails(id){
 
 const property =
 allProperties.find(
@@ -834,14 +572,13 @@ amenities = Object.values(amenities).join(", ");
 document.getElementById("modalAmenities").textContent =
 amenities || "Not specified";
 
+/* MODAL IMAGE FIX */
+
 const modalImage =
 document.getElementById("modalImage");
 
-modalImage.innerHTML =
-'<div class="placeholder">🏠</div>';
-
 const imageUrls =
-await getImageUrls(property);
+getImageUrls(property);
 
 if(imageUrls.length > 0){
 
@@ -851,6 +588,11 @@ src="${escapeHtml(imageUrls[0])}"
 alt="${escapeHtml(property.title || "Property")}"
 onerror="this.onerror=null;this.outerHTML='<div class=&quot;placeholder&quot;>🏠</div>';"
 >`;
+
+}else{
+
+modalImage.innerHTML =
+'<div class="placeholder">🏠</div>';
 
 }
 
@@ -869,9 +611,9 @@ document.body.style.overflow =
 
 }
 
-/* --------------------------------
+/* ------------------------------
    CLOSE DETAILS
--------------------------------- */
+--------------------------------*/
 
 function closeDetails(){
 
@@ -883,9 +625,9 @@ document.body.style.overflow =
 
 }
 
-/* --------------------------------
+/* ------------------------------
    BOOK TOUR
--------------------------------- */
+--------------------------------*/
 
 function bookTour(id){
 
@@ -911,11 +653,11 @@ window.open(url,"_blank");
 
 }
 
-/* --------------------------------
+/* ------------------------------
    FILTER PROPERTIES
--------------------------------- */
+--------------------------------*/
 
-async function filterProperties(){
+function filterProperties(){
 
 const searchInput =
 document.getElementById("searchInput");
@@ -983,7 +725,7 @@ matchesRent
 
 });
 
-await renderProperties(filtered);
+renderProperties(filtered);
 
 document.getElementById("homes").scrollIntoView({
 behavior:"smooth"
@@ -991,9 +733,9 @@ behavior:"smooth"
 
 }
 
-/* --------------------------------
+/* ------------------------------
    ENTER KEY SEARCH
--------------------------------- */
+--------------------------------*/
 
 document
 .getElementById("searchInput")
@@ -1008,104 +750,9 @@ filterProperties();
 }
 );
 
-/* --------------------------------
-   CLOSE MODAL
--------------------------------- *//* --------------------------------
-   REQUEST HOUSE VIEWING
--------------------------------- */
-
-function toggleRequestForm(){
-
-  const form =
-    document.getElementById("requestForm");
-
-  if(form.style.display === "block"){
-    form.style.display = "none";
-  }else{
-    form.style.display = "block";
-  }
-
-}
-
-function updateRequestWhatsApp(){
-
-  const location =
-    document.getElementById("requestLocation").value.trim();
-
-  const type =
-    document.getElementById("requestType").value;
-
-  const budget =
-    document.getElementById("requestBudget").value;
-
-  const date =
-    document.getElementById("requestDate").value;
-
-  const time =
-    document.getElementById("requestTime").value;
-
-  let message =
-    "Hello Nyumbani Housing, I want to request a house viewing.%0A%0A";
-
-  message +=
-    "Preferred location(s): " +
-    (location || "Not specified") +
-    "%0A";
-
-  message +=
-    "House type: " +
-    (type || "Not specified") +
-    "%0A";
-
-  message +=
-    "Budget: KSh " +
-    (budget || "Not specified") +
-    "%0A";
-
-  message +=
-    "Preferred date: " +
-    (date || "Not specified") +
-    "%0A";
-
-  message +=
-    "Preferred time: " +
-    (time || "Not specified") +
-    "%0A%0A";
-
-  message +=
-    "I understand the viewing fee is KSh 1,500 and I would like help viewing up to 5 suitable houses.";
-
-  document.getElementById("requestWhatsApp").href =
-    "https://wa.me/254738264143?text=" +
-    encodeURIComponent(
-      decodeURIComponent(message)
-    );
-
-}
-
-[
-  "requestLocation",
-  "requestType",
-  "requestBudget",
-  "requestDate",
-  "requestTime"
-].forEach(function(id){
-
-  document
-    .getElementById(id)
-    .addEventListener(
-      "input",
-      updateRequestWhatsApp
-    );
-
-  document
-    .getElementById(id)
-    .addEventListener(
-      "change",
-      updateRequestWhatsApp
-    );
-
-});
+/* ------------------------------
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+--------------------------------*/
 
 window.addEventListener(
 "click",
@@ -1121,13 +768,11 @@ closeDetails();
 }
 );
 
-/* --------------------------------
+/* ------------------------------
    START
--------------------------------- */
+--------------------------------*/
 
 loadProperties();
 
-</script>
-
-</body>
+</script></body>
 </html>
