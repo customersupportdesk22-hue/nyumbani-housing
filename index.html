@@ -109,13 +109,167 @@ footer{background:#020617;color:#94a3b8;text-align:center;padding:25px}
 .steps{grid-template-columns:1fr}
 .details-list{grid-template-columns:1fr}
 }
-</style></head><body><header class="header">
+</style>/* REQUEST HOUSE VIEWING */
+.request-box{
+  margin-top:35px;
+  background:white;
+  border:1px solid #e2e8f0;
+  border-radius:18px;
+  padding:28px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(15,23,42,.06);
+}
+
+.request-box h2{
+  color:#0f172a;
+  margin-bottom:8px;
+}
+
+.request-box p{
+  color:#64748b;
+  margin-bottom:20px;
+}
+
+.request-btn{
+  border:0;
+  background:#0f766e;
+  color:white;
+  padding:14px 22px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.request-form{
+  display:none;
+  margin-top:20px;
+  text-align:left;
+}
+
+.request-form input,
+.request-form select{
+  width:100%;
+  padding:13px;
+  margin-bottom:10px;
+  border:1px solid #e2e8f0;
+  border-radius:9px;
+  outline:none;
+}
+
+.request-actions{
+  display:flex;
+  gap:10px;
+  margin-top:8px;
+}
+
+.request-actions a{
+  flex:1;
+  text-align:center;
+  padding:13px;
+  border-radius:10px;
+  font-weight:800;
+}
+
+.request-call{
+  background:#0f172a;
+  color:white;
+}
+
+.request-whatsapp{
+  background:#16a34a;
+  color:white;
+}
+
+.request-note{
+  font-size:13px;
+  color:#64748b;
+  margin-top:12px;
+}</head><body><header class="header">
 <nav class="nav">
 <a href="#" class="logo">
 <span class="logo-icon">🏠</span>
 <span>Nyumbani Housing</span>
 </a><div class="nav-links">
-<a href="#homes">Homes</a>
+<a href="#homes">Homes<section class="container">
+  <div class="request-box">
+
+    <h2>🏠 Can't Find the House You Want?</h2>
+
+    <p>
+      Tell us your preferred locations, house type and budget.
+      We can help arrange a viewing of up to 5 suitable houses,
+      even if they are in different areas.
+    </p>
+
+    <button class="request-btn" onclick="toggleRequestForm()">
+      Request House Viewing
+    </button>
+
+    <div id="requestForm" class="request-form">
+
+      <input
+        id="requestLocation"
+        type="text"
+        placeholder="Preferred location(s) e.g. Ngara, Kasarani, Roysambu"
+      >
+
+      <select id="requestType">
+        <option value="">Select house type</option>
+        <option>Bedsitter</option>
+        <option>Single Room</option>
+        <option>Studio</option>
+        <option>1 Bedroom</option>
+        <option>2 Bedroom</option>
+        <option>3 Bedroom</option>
+        <option>Own Compound</option>
+      </select>
+
+      <input
+        id="requestBudget"
+        type="number"
+        placeholder="Maximum budget e.g. 20000"
+      >
+
+      <input
+        id="requestDate"
+        type="date"
+      >
+
+      <input
+        id="requestTime"
+        type="time"
+      >
+
+      <div class="request-actions">
+
+        <a
+          href="tel:0709221533"
+          class="request-call"
+        >
+          📞 Call
+        </a>
+
+        <a
+          href="#"
+          id="requestWhatsApp"
+          class="request-whatsapp"
+          target="_blank"
+        >
+          💬 WhatsApp
+        </a>
+
+      </div>
+
+      <p class="request-note">
+        Viewing appointment fee: <strong>KSh 1,500</strong>.
+        We will help arrange up to 5 suitable houses based on
+        your requirements and availability.
+      </p>
+
+    </div>
+
+  </div>
+</section></a>
 <a href="#how">How It Works</a>
 <a href="#contact">Contact</a>
 <a href="admin.html" class="admin">Admin</a>
@@ -856,7 +1010,102 @@ filterProperties();
 
 /* --------------------------------
    CLOSE MODAL
+-------------------------------- *//* --------------------------------
+   REQUEST HOUSE VIEWING
 -------------------------------- */
+
+function toggleRequestForm(){
+
+  const form =
+    document.getElementById("requestForm");
+
+  if(form.style.display === "block"){
+    form.style.display = "none";
+  }else{
+    form.style.display = "block";
+  }
+
+}
+
+function updateRequestWhatsApp(){
+
+  const location =
+    document.getElementById("requestLocation").value.trim();
+
+  const type =
+    document.getElementById("requestType").value;
+
+  const budget =
+    document.getElementById("requestBudget").value;
+
+  const date =
+    document.getElementById("requestDate").value;
+
+  const time =
+    document.getElementById("requestTime").value;
+
+  let message =
+    "Hello Nyumbani Housing, I want to request a house viewing.%0A%0A";
+
+  message +=
+    "Preferred location(s): " +
+    (location || "Not specified") +
+    "%0A";
+
+  message +=
+    "House type: " +
+    (type || "Not specified") +
+    "%0A";
+
+  message +=
+    "Budget: KSh " +
+    (budget || "Not specified") +
+    "%0A";
+
+  message +=
+    "Preferred date: " +
+    (date || "Not specified") +
+    "%0A";
+
+  message +=
+    "Preferred time: " +
+    (time || "Not specified") +
+    "%0A%0A";
+
+  message +=
+    "I understand the viewing fee is KSh 1,500 and I would like help viewing up to 5 suitable houses.";
+
+  document.getElementById("requestWhatsApp").href =
+    "https://wa.me/254738264143?text=" +
+    encodeURIComponent(
+      decodeURIComponent(message)
+    );
+
+}
+
+[
+  "requestLocation",
+  "requestType",
+  "requestBudget",
+  "requestDate",
+  "requestTime"
+].forEach(function(id){
+
+  document
+    .getElementById(id)
+    .addEventListener(
+      "input",
+      updateRequestWhatsApp
+    );
+
+  document
+    .getElementById(id)
+    .addEventListener(
+      "change",
+      updateRequestWhatsApp
+    );
+
+});
 
 window.addEventListener(
 "click",
