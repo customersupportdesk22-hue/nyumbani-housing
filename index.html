@@ -653,11 +653,11 @@ window.open(url,"_blank");
 
 }
 
-/* ------------------------------
+/* --------------------------------
    FILTER PROPERTIES
---------------------------------*/
+-------------------------------- */
 
-function filterProperties(){
+async function filterProperties(){
 
 const searchInput =
 document.getElementById("searchInput");
@@ -725,7 +725,7 @@ matchesRent
 
 });
 
-renderProperties(filtered);
+await renderProperties(filtered);
 
 document.getElementById("homes").scrollIntoView({
 behavior:"smooth"
@@ -733,9 +733,9 @@ behavior:"smooth"
 
 }
 
-/* ------------------------------
+/* --------------------------------
    ENTER KEY SEARCH
---------------------------------*/
+-------------------------------- */
 
 document
 .getElementById("searchInput")
@@ -750,9 +750,9 @@ filterProperties();
 }
 );
 
-/* ------------------------------
-   CLOSE MODAL WHEN CLICKING OUTSIDE
---------------------------------*/
+/* --------------------------------
+   CLOSE MODAL
+-------------------------------- */
 
 window.addEventListener(
 "click",
@@ -768,11 +768,13 @@ closeDetails();
 }
 );
 
-/* ------------------------------
+/* --------------------------------
    START
---------------------------------*/
+-------------------------------- */
 
 loadProperties();
 
-</script></body>
+</script>
+
+</body>
 </html>
