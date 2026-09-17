@@ -1,7 +1,9 @@
 <!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nyumbani Housing | Find Your Next Home</title><meta name="description" content="Find rental homes, bedsitters, rooms, studios and apartments in Nairobi, Kiambu, Thika and Nakuru."><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nyumbani Housing | Find Your Next Home</title>
+<meta name="description" content="Find rental homes, bedsitters, rooms, studios and apartments in Nairobi, Kiambu, Thika and Nakuru."><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,Helvetica,sans-serif;background:#f8fafc;color:#334155;line-height:1.6}
 a{text-decoration:none;color:inherit}
@@ -108,7 +110,8 @@ footer{background:#020617;color:#94a3b8;text-align:center;padding:25px}
 .details-list{grid-template-columns:1fr}
 }
 </style></head><body><header class="header">
-<nav class="nav"><a href="#" class="logo">
+<nav class="nav">
+<a href="#" class="logo">
 <span class="logo-icon">🏠</span>
 <span>Nyumbani Housing</span>
 </a><div class="nav-links">
@@ -116,8 +119,10 @@ footer{background:#020617;color:#94a3b8;text-align:center;padding:25px}
 <a href="#how">How It Works</a>
 <a href="#contact">Contact</a>
 <a href="admin.html" class="admin">Admin</a>
-</div></nav>
-</header><section class="hero"><h1>Find a Place to Call Home</h1><p>
+</div>
+</nav>
+</header><section class="hero">
+<h1>Find a Place to Call Home</h1><p>
 Find an affordable place to call home. Explore quality rental houses, apartments, studios, bedsitters and rooms at prices that fit your budget.
 </p><div class="search-box"><input id="searchInput" type="text" placeholder="Search area, estate or property..."><select id="locationFilter">
 <option value="">All Locations</option>
@@ -145,12 +150,10 @@ Find an affordable place to call home. Explore quality rental houses, apartments
 </select><button class="search-btn" onclick="filterProperties()">Search</button>
 
 </div>
-</section><section id="homes" class="container"><div class="section-head">
-<div>
+</section><section id="homes" class="container"><div class="section-head"><div>
 <h2>Live Property Listings</h2>
 <p id="listingCount">Loading available homes...</p>
-</div><div class="live-badge">🟢 LIVE LISTINGS</div>
-</div><div id="loading" class="loading">
+</div><div class="live-badge">🟢 LIVE LISTINGS</div></div><div id="loading" class="loading">
 Loading available homes...
 </div><div id="propertyGrid" class="grid"></div><div id="emptyState" class="empty" style="display:none;">
 <h3>No properties found</h3>
@@ -219,10 +222,6 @@ const SUPABASE_KEY =
 let supabaseClient = null;
 let allProperties = [];
 
-/* ------------------------------
-   SUPABASE CONNECTION
---------------------------------*/
-
 if(window.supabase){
 
 supabaseClient =
@@ -236,10 +235,6 @@ SUPABASE_KEY
 console.error("Supabase library failed to load.");
 
 }
-
-/* ------------------------------
-   ESCAPE HTML
---------------------------------*/
 
 function escapeHtml(value){
 
@@ -256,20 +251,75 @@ return String(value)
 
 }
 
-/* ------------------------------
-   GET IMAGE URLS
---------------------------------*/
+/* --------------------------------
+   GET STORAGE PATH
+-------------------------------- */
 
-function getImageUrls(property){
+function getStoragePath(url){
+
+if(!url || typeof url !== "string"){
+return null;
+}
+
+try{
+
+/*
+   Existing database URLs look like:
+
+   /storage/v1/object/public/property-images/properties/file.jpg
+
+   or
+
+   /storage/v1/object/sign/property-images/properties/file.jpg
+*/
+
+const publicMarker =
+"/storage/v1/object/public/property-images/";
+
+const signMarker =
+"/storage/v1/object/sign/property-images/";
+
+if(url.includes(publicMarker)){
+
+return url.split(publicMarker)[1].split("?")[0];
+
+}
+
+if(url.includes(signMarker)){
+
+return url.split(signMarker)[1].split("?")[0];
+
+}
+
+/* If database ever contains just the storage path */
+
+if(url.startsWith("properties/")){
+return url.split("?")[0];
+}
+
+return null;
+
+}catch(error){
+
+console.error("Storage path error:",error);
+
+return null;
+
+}
+
+}
+
+/* --------------------------------
+   CREATE SIGNED IMAGE URLS
+-------------------------------- */
+
+async function getImageUrls(property){
 
 let images = property?.image_urls;
 
 if(!images){
 return [];
 }
-
-/* JSONB normally arrives as an array.
-   This also supports a JSON string. */
 
 if(typeof images === "string"){
 
@@ -291,15 +341,73 @@ if(!Array.isArray(images)){
 return [];
 }
 
-return images.filter(
-url => typeof url === "string" && url.trim() !== ""
+const validImages =
+images.filter(
+url =>
+typeof url === "string" &&
+url.trim() !== ""
+);
+
+const signedImages =
+await Promise.all(
+
+validImages.map(
+async url => {
+
+const path =
+getStoragePath(url);
+
+if(!path){
+return null;
+}
+
+try{
+
+const {data,error} =
+await supabaseClient.storage
+.from("property-images")
+.createSignedUrl(
+path,
+3600
+);
+
+if(error){
+
+console.error(
+"Could not create signed image URL:",
+error
+);
+
+return null;
+}
+
+return data?.signedUrl || null;
+
+}catch(error){
+
+console.error(
+"Signed image error:",
+error
+);
+
+return null;
+
+}
+
+}
+)
+
+);
+
+return signedImages.filter(
+url => typeof url === "string" && url !== ""
 );
 
 }
 
-/* ------------------------------
+/* --------------------------------
    LOAD PROPERTIES
---------------------------------*/
+-------------------------------- */
 
 async function loadProperties(){
 
@@ -334,7 +442,7 @@ allProperties = data || [];
 
 loading.style.display="none";
 
-renderProperties(allProperties);
+await renderProperties(allProperties);
 
 }catch(error){
 
@@ -353,11 +461,11 @@ document.getElementById("listingCount").textContent =
 
 }
 
-/* ------------------------------
+/* --------------------------------
    RENDER PROPERTIES
---------------------------------*/
+-------------------------------- */
 
-function renderProperties(properties){
+async function renderProperties(properties){
 
 const grid =
 document.getElementById("propertyGrid");
@@ -386,7 +494,7 @@ return;
 
 empty.style.display="none";
 
-properties.forEach(property => {
+for(const property of properties){
 
 const card =
 document.createElement("div");
@@ -394,7 +502,7 @@ document.createElement("div");
 card.className="card";
 
 const imageUrls =
-getImageUrls(property);
+await getImageUrls(property);
 
 let imageHTML =
 '<div class="placeholder">🏠</div>';
@@ -493,15 +601,15 @@ Book Tour
 
 grid.appendChild(card);
 
-});
+}
 
 }
 
-/* ------------------------------
+/* --------------------------------
    SHOW PROPERTY DETAILS
---------------------------------*/
+-------------------------------- */
 
-function showDetails(id){
+async function showDetails(id){
 
 const property =
 allProperties.find(
@@ -572,13 +680,14 @@ amenities = Object.values(amenities).join(", ");
 document.getElementById("modalAmenities").textContent =
 amenities || "Not specified";
 
-/* MODAL IMAGE FIX */
-
 const modalImage =
 document.getElementById("modalImage");
 
+modalImage.innerHTML =
+'<div class="placeholder">🏠</div>';
+
 const imageUrls =
-getImageUrls(property);
+await getImageUrls(property);
 
 if(imageUrls.length > 0){
 
@@ -588,11 +697,6 @@ src="${escapeHtml(imageUrls[0])}"
 alt="${escapeHtml(property.title || "Property")}"
 onerror="this.onerror=null;this.outerHTML='<div class=&quot;placeholder&quot;>🏠</div>';"
 >`;
-
-}else{
-
-modalImage.innerHTML =
-'<div class="placeholder">🏠</div>';
 
 }
 
@@ -611,9 +715,9 @@ document.body.style.overflow =
 
 }
 
-/* ------------------------------
+/* --------------------------------
    CLOSE DETAILS
---------------------------------*/
+-------------------------------- */
 
 function closeDetails(){
 
@@ -625,9 +729,9 @@ document.body.style.overflow =
 
 }
 
-/* ------------------------------
+/* --------------------------------
    BOOK TOUR
---------------------------------*/
+-------------------------------- */
 
 function bookTour(id){
 
